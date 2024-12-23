@@ -1,9 +1,10 @@
 Type: Package
 Package: autoslider.core
 Title: Slide Automation for Tables, Listings and Figures
-Version: 0.1.0
+Version: 0.2.1
 Authors@R: c(
-    person("Joe", "Zhu", , "joe.zhu@roche.com", role = c("cre", "aut")),
+    person("Joe", "Zhu", , "joe.zhu@roche.com", role = c("cre", "aut"),
+           comment = c(ORCID = "0000-0001-7566-2787")),
     person("Heng", "Wang", role = "aut"),
     person("Yinqi", "Zhao", role = "aut"),
     person("Bo", "Ci", role = "aut"),
@@ -20,27 +21,30 @@ Authors@R: c(
     person("Elisabeth", "Deutschmann", role = "ctb"),
     person("Chenkai", "Lv", role = "aut")
   )
-Description: The normal process of creating clinical study slides is that a statistician
-    manually type in the numbers from outputs and a separate statistician to double check
-    the typed in numbers. This process is time consuming, resource intensive, and error
-    prone. Automatic slide generation is a solution to address these issues. It reduces the
-    amount of work and the required time when creating slides, and reduces the risk of
-    errors from manually typing or copying numbers from the output to slides. It also
-    helps users to avoid unnecessary stress when creating large amounts of slide decks
-    in a short time window.
+Description: The normal process of creating clinical study slides is that
+    a statistician manually type in the numbers from outputs and a
+    separate statistician to double check the typed in numbers. This
+    process is time consuming, resource intensive, and error prone.
+    Automatic slide generation is a solution to address these issues. It
+    reduces the amount of work and the required time when creating slides,
+    and reduces the risk of errors from manually typing or copying numbers
+    from the output to slides. It also helps users to avoid unnecessary
+    stress when creating large amounts of slide decks in a short time
+    window.
 License: Apache License 2.0
 URL: https://github.com/insightsengineering/autoslider.core
 BugReports: https://github.com/insightsengineering/autoslider.core/issues
-Depends: flextable (>= 0.9.4), officer (>= 0.3.18), R (>= 2.10)
-Imports: assertthat, checkmate, cli, dplyr, filters (>= 0.3.1),
-        forcats, formatters (>= 0.5.9), ggplot2, ggpubr, glue,
-        googlesheets4, grid, gridExtra, lubridate, magrittr, methods,
-        purrr, readxl, rlang, rlistings (>= 0.2.9), rtables (>=
-        0.6.10), rvg (>= 0.2.5), stringr, survival, tern (>= 0.9.6),
-        tidyr, yaml
-Suggests: devtools, googledrive, htmltools, httr, knitr, mime,
-        nestcolor, rmarkdown (>= 2.23), rsvg, styler (>= 1.10.2),
-        svglite (>= 2.1.2), testthat (>= 3.2.0), withr
+Depends: R (>= 3.5.0)
+Imports: assertthat, checkmate, cli, dplyr, flextable (>= 0.9.4),
+        forcats, ggplot2, grid, gridExtra, methods, officer (>=
+        0.3.18), rlang, rlistings (>= 0.2.9), rtables (>= 0.6.10),
+        stringr, survival, tern (>= 0.9.6), tidyr, yaml
+Suggests: devtools, filters (>= 0.3.1), formatters (>= 0.5.9), ggpubr,
+        glue, googledrive, htmltools, httr, knitr, lubridate, mime,
+        nestcolor, purrr, rmarkdown (>= 2.23), rsvg, rvg (>= 0.2.5),
+        styler (>= 1.10.2), svglite (>= 2.1.2), testthat (>= 3.2.0),
+        withr
+VignetteBuilder: knitr, rmarkdown
 Config/Needs/verdepcheck: insightsengineering/formatters,
         tidyverse/magrittr, mllg/checkmate, rstudio/htmltools,
         gagolews/stringi, tidymodels/broom, cran/car, tidyverse/dplyr,
@@ -55,8 +59,8 @@ LazyData: true
 LazyDataCompression: xz
 RoxygenNote: 7.3.2
 NeedsCompilation: no
-Packaged: 2024-11-26 17:01:59 UTC; rstudio
-Author: Joe Zhu [cre, aut],
+Packaged: 2024-12-23 06:30:53 UTC; rstudio
+Author: Joe Zhu [cre, aut] (<https://orcid.org/0000-0001-7566-2787>),
   Heng Wang [aut],
   Yinqi Zhao [aut],
   Bo Ci [aut],
@@ -74,4 +78,4 @@ Author: Joe Zhu [cre, aut],
   Chenkai Lv [aut]
 Maintainer: Joe Zhu <joe.zhu@roche.com>
 Repository: CRAN
-Date/Publication: 2024-11-27 12:50:06 UTC
+Date/Publication: 2024-12-23 07:10:02 UTC
