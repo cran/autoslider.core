@@ -9,11 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Stefan Thoma, Joe Zhu (shajoezhu)" />
+<meta name="author" content="Joe Zhu (shajoezhu)" />
 
-<meta name="date" content="2025-01-07" />
 
-<title>How to use autoslider.core</title>
+<title>Guidelines for building downstream autoslider.* packages</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1313,110 +1312,6 @@ ul.task-list{list-style: none;}
 
 
 
-<style type="text/css">
-code {
-white-space: pre;
-}
-.sourceCode {
-overflow: visible;
-}
-</style>
-<style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-{ counter-reset: source-line 0; }
-pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-background-color: #ffffff;
-color: #a0a0a0;
-}
-pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0; padding-left: 4px; }
-div.sourceCode
-{ color: #1f1c1b; background-color: #ffffff; }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span { color: #1f1c1b; } 
-code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } 
-code span.an { color: #ca60ca; } 
-code span.at { color: #0057ae; } 
-code span.bn { color: #b08000; } 
-code span.bu { color: #644a9b; font-weight: bold; } 
-code span.cf { color: #1f1c1b; font-weight: bold; } 
-code span.ch { color: #924c9d; } 
-code span.cn { color: #aa5500; } 
-code span.co { color: #898887; } 
-code span.cv { color: #0095ff; } 
-code span.do { color: #607880; } 
-code span.dt { color: #0057ae; } 
-code span.dv { color: #b08000; } 
-code span.er { color: #bf0303; text-decoration: underline; } 
-code span.ex { color: #0095ff; font-weight: bold; } 
-code span.fl { color: #b08000; } 
-code span.fu { color: #644a9b; } 
-code span.im { color: #ff5500; } 
-code span.in { color: #b08000; } 
-code span.kw { color: #1f1c1b; font-weight: bold; } 
-code span.op { color: #1f1c1b; } 
-code span.ot { color: #006e28; } 
-code span.pp { color: #006e28; } 
-code span.re { color: #0057ae; background-color: #e0e9f8; } 
-code span.sc { color: #3daee9; } 
-code span.ss { color: #ff5500; } 
-code span.st { color: #bf0303; } 
-code span.va { color: #0057ae; } 
-code span.vs { color: #bf0303; } 
-code span.wa { color: #bf0303; } 
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    var j = 0;
-    while (j < rules.length) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
-        j++;
-        continue;
-      }
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') {
-        j++;
-        continue;
-      }
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 
 
 
@@ -1578,640 +1473,64 @@ border-radius: 0px;
 
 
 
-<h1 class="title toc-ignore">How to use autoslider.core</h1>
-<h4 class="author">Stefan Thoma, Joe Zhu (<a href="https://github.com/shajoezhu"><code>shajoezhu</code></a>)</h4>
-<h4 class="date">2025-01-07</h4>
+<h1 class="title toc-ignore">Guidelines for building downstream
+autoslider.* packages</h1>
+<h4 class="author">Joe Zhu (<a href="https://github.com/shajoezhu"><code>shajoezhu</code></a>)</h4>
 
 </div>
 
 
-<p>In this vignette we show the general <code>autoslider.core</code>
-workflow, how you can create functions that produce study-specific
-outputs, and how you can integrate them into the
-<code>autoslider.core</code> framework.</p>
-<div id="requirements" class="section level1">
-<h1>Requirements</h1>
-<p>Of course, you need to have the <code>autoslider.core</code> package
-installed, and you need to have data available. In this example I use
-example data stored in the <code>autoslider.core</code> package.</p>
-<p>The data needs to be stored in a named list where the names should
-correspond to ADaM data sets.</p>
-</div>
-<div id="workflow" class="section level1">
-<h1>Workflow</h1>
-<p>The folder structure could look something like:</p>
-<pre><code>├── programs
-│   ├── run_script.R
-│   ├── R   
-|   |   ├── helping_functions.R
-|   |   ├── output_functions.R
-├── outputs
-├── specs.yml
-├── filters.yml</code></pre>
-<p>The <code>autoslideR</code> workflow would be implemented in the
-<code>run_script.R</code> file. This workflow does not require the files
-in <code>R/</code>. However, if custom output-creating functions are
-implemented, <code>R/</code> would be the place to put them.</p>
-<p>The <code>autoslideR</code> workflow has four main aspects:</p>
-<div id="the-specifications-specs.yml" class="section level2">
-<h2>The specifications <code>specs.yml</code></h2>
-<p>This file contains the specifications of all outputs you would like
-to create.</p>
-<p>For each output we define specific information, namely the program
-name, the footnotes &amp; titles, the paper (this indicates the
-orientation, P for portrait and L for landscape, the number indicates
-the font size), the suffix and <code>args</code>.</p>
-<p>It could look something like that:</p>
-<pre><code>- program: t_ds_slide
-  titles: Patient Disposition ({filter_titles(&quot;adsl&quot;)})
-  footnotes: &#39;t_ds footnotes&#39;
-  paper: L6
-  suffix: ITT
-- program: t_dm_slide
-  titles: Patient Demographics and Baseline Characteristics
-  footnotes: &#39;t_dm_slide footnote&#39;
-  paper: L6
-  suffix: ITT
-  args:
-    arm: &quot;TRT01A&quot;
-    vars: [&quot;SEX&quot;, &quot;AGE&quot;, &quot;RACE&quot;, &quot;ETHNIC&quot;, &quot;COUNTRY&quot;]
-</code></pre>
-<p>The program name refers to a function that produces an output. This
-could be one of the <code>_slide</code> functions in
-<code>autoslider.core</code> or a custom function.</p>
-<p>Titles and footnotes are added once the outputs are created. We refer
-to that as decorating the outputs.</p>
-<p>The suffix specifies the name of the filters that are applied to the
-data, before the data is funneled into the function (program). The
-filters themselves are specified in the <code>filters.yml</code>
-file.</p>
-</div>
-<div id="the-filters-filters.yml" class="section level2">
-<h2>The filters <code>filters.yml</code></h2>
-<p>In <code>filters.yml</code> we specify the names of the filters used
-across the outputs. Each filter has a name (e.g. <code>FAS</code>), a
-title (<code>Full Analysis Set</code>), and then the filtering condition
-on a target dataset. The filter title may be appended to the output
-title. For the <code>t_ds_slides</code> slide above all filter titles
-that target the adsl dataset would be included in the brackets. We would
-thus expect the title to read: “Patient Disposition (Full Analysis
-Set)”</p>
-<p>[what is the type?]</p>
-<p>As you can see, we don’t just have population filters, but also
-filters on serious adverse events. We can thus produce SAE tables by
-just supplying the serious adverse events to the AE table function. This
-concept generalizes also to <code>PARAMCD</code> values.</p>
-<pre><code>ITT:
-  title: Intent to Treat Population
-  condition: ITTFL ==&#39;Y&#39;
-  target: adsl
-  type: slref
-SAS:
-  title: Secondary Analysis Set
-  condition: SASFL == &#39;Y&#39;
-  target: adsl
-  type: slref
-SE:
-  title: Safety Evaluable Population
-  condition: SAFFL==&#39;Y&#39;
-  target: adsl
-  type: slref
-SER:
-  title: Serious Adverse Events
-  condition: AESER == &#39;Y&#39;
-  target: adae
-  type: anl
-</code></pre>
-</div>
-<div id="the-functions" class="section level2">
-<h2>The functions</h2>
-<p>You can find an overview of all <code>autoslider.core</code>
-functions <a href="https://insightsengineering.github.io/autoslider.core/latest-tag/reference/index.html">here</a>.
-Note that all output-producing functions end with <code>_slide</code>
-while the prefix (i.e. <code>t_</code>, <code>l_</code>,
-<code>g_</code>) specify the type of output (i.e. table, listing, or
-graph respectively). Custom functions are needed if the
-<code>autoslider.core</code> functions do not cover the outputs you
-need. More on that further down.</p>
-</div>
-<div id="the-backend-machinery" class="section level2">
-<h2>The backend machinery</h2>
-<p>A typical workflow could look something like this:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># define path to the yml files</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>spec_file <span class="ot">&lt;-</span> <span class="st">&quot;spec.yml&quot;</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>filters <span class="ot">&lt;-</span> <span class="st">&quot;filters.yml&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;dplyr&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># load all filters</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>filters<span class="sc">::</span><span class="fu">load_filters</span>(filters, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># read data</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="st">&quot;adsl&quot;</span> <span class="ot">=</span> eg_adsl <span class="sc">%&gt;%</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>      <span class="at">FASFL =</span> SAFFL, <span class="co"># add FASFL for illustrative purpose for t_pop_slide</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>      <span class="co"># DISTRTFL is needed for t_ds_slide but is missing in example data</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>      <span class="at">DISTRTFL =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&quot;Y&quot;</span>, <span class="st">&quot;N&quot;</span>), <span class="at">size =</span> <span class="fu">length</span>(TRT01A), <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(.<span class="dv">1</span>, .<span class="dv">9</span>))</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>    <span class="fu">preprocess_t_ds</span>(), <span class="co"># this preproccessing is required by one of the autoslider.core functions</span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="st">&quot;adae&quot;</span> <span class="ot">=</span> eg_adae,</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>  <span class="st">&quot;adtte&quot;</span> <span class="ot">=</span> eg_adtte,</span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>  <span class="st">&quot;adrs&quot;</span> <span class="ot">=</span> eg_adrs,</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  <span class="st">&quot;adlb&quot;</span> <span class="ot">=</span> eg_adlb</span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>)</span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a></span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a></span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co"># create outputs based on the specs and the functions</span></span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> spec_file <span class="sc">%&gt;%</span></span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>  <span class="fu">read_spec</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>  <span class="co"># we can also filter for specific programs, if we don&#39;t want to create them all</span></span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>  <span class="fu">filter_spec</span>(., program <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a>    <span class="st">&quot;t_ds_slide&quot;</span>,</span>
-<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a>    <span class="st">&quot;t_dm_slide&quot;</span></span>
-<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
-<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a>  <span class="co"># these filtered specs are now piped into the generate_outputs function.</span></span>
-<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a>  <span class="co"># this function also requires the data</span></span>
-<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a>  <span class="fu">generate_outputs</span>(<span class="at">datasets =</span> data) <span class="sc">%&gt;%</span></span>
-<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a>  <span class="co"># now we decorate based on the specs, i.e. add footnotes and titles</span></span>
-<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a>  <span class="fu">decorate_outputs</span>(</span>
-<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a>    <span class="at">version_label =</span> <span class="cn">NULL</span></span>
-<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a>  )</span>
-<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a><span class="co">#&gt; ✔ 2/3 outputs matched the filter condition `program %in% c(&quot;t_ds_slide&quot;, &quot;t_dm_slide&quot;)`.</span></span>
-<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a><span class="co">#&gt; ❯ Running program `t_ds_slide` with suffix &#39;ITT&#39;.</span></span>
-<span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a><span class="co">#&gt; Filter &#39;ITT&#39; matched target ADSL.</span></span>
-<span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a><span class="co">#&gt; 400/400 records matched the filter condition `ITTFL == &#39;Y&#39;`.</span></span>
-<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a><span class="co">#&gt; ❯ Running program `t_dm_slide` with suffix &#39;ITT&#39;.</span></span>
-<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a><span class="co">#&gt; Filter &#39;ITT&#39; matched target ADSL.</span></span>
-<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a><span class="co">#&gt; 400/400 records matched the filter condition `ITTFL == &#39;Y&#39;`.</span></span></code></pre></div>
-<p>We can have a look at one of the outputs stored in the outputs
-file:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>outputs<span class="sc">$</span>t_dm_slide_ITT</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; An object of class &quot;dVTableTree&quot;</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; Slot &quot;tbl&quot;:</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt;  Patient Demographics and Baseline Characteristics, Intent to Treat Population</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; ———————————————————————————————————————————————————————————————————————————————————————————————————————</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt;                                                A: Drug X    B: Placebo    C: Combination   All Patients</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; ———————————————————————————————————————————————————————————————————————————————————————————————————————</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; Sex                                                                                                    </span></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt;   F                                            79 (59%)     82 (61.2%)       70 (53%)      231 (57.8%) </span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt;   M                                            55 (41%)     52 (38.8%)       62 (47%)      169 (42.2%) </span></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; Age                                                                                                    </span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt;   Median                                         33.00         35.00          35.00           34.00    </span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt;   Min - Max                                   21.0 - 50.0   21.0 - 62.0    20.0 - 69.0     20.0 - 69.0 </span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt; Race                                                                                                   </span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt;   ASIAN                                       68 (50.7%)     67 (50%)       73 (55.3%)      208 (52%)  </span></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt;   BLACK OR AFRICAN AMERICAN                   31 (23.1%)    28 (20.9%)      32 (24.2%)      91 (22.8%) </span></span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt;   WHITE                                       27 (20.1%)    26 (19.4%)      21 (15.9%)      74 (18.5%) </span></span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt;   AMERICAN INDIAN OR ALASKA NATIVE              8 (6%)       11 (8.2%)       6 (4.5%)       25 (6.2%)  </span></span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt;   MULTIPLE                                         0         1 (0.7%)           0            1 (0.2%)  </span></span>
-<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt;   NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER        0         1 (0.7%)           0            1 (0.2%)  </span></span>
-<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co">#&gt;   OTHER                                            0             0              0               0      </span></span>
-<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt;   UNKNOWN                                          0             0              0               0      </span></span>
-<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co">#&gt; Ethnicity                                                                                              </span></span>
-<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co">#&gt;    NOT REPORTED                                6 (4.5%)      10 (7.5%)      11 (8.3%)       27 (6.8%)  </span></span>
-<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="co">#&gt;   HISPANIC OR LATINO                          15 (11.2%)    18 (13.4%)      15 (11.4%)       48 (12%)  </span></span>
-<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co">#&gt;   NOT HISPANIC OR LATINO                      104 (77.6%)   103 (76.9%)    101 (76.5%)      308 (77%)  </span></span>
-<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co">#&gt;   UNKNOWN                                      9 (6.7%)      3 (2.2%)        5 (3.8%)       17 (4.2%)  </span></span>
-<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co">#&gt; Country                                                                                                </span></span>
-<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co">#&gt;   CHN                                         74 (55.2%)    81 (60.4%)      64 (48.5%)     219 (54.8%) </span></span>
-<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="co">#&gt;   USA                                          10 (7.5%)     13 (9.7%)      17 (12.9%)       40 (10%)  </span></span>
-<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a><span class="co">#&gt;   BRA                                          13 (9.7%)     7 (5.2%)       10 (7.6%)       30 (7.5%)  </span></span>
-<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a><span class="co">#&gt;   PAK                                           12 (9%)      9 (6.7%)       10 (7.6%)       31 (7.8%)  </span></span>
-<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a><span class="co">#&gt;   NGA                                           8 (6%)       7 (5.2%)       11 (8.3%)       26 (6.5%)  </span></span>
-<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a><span class="co">#&gt;   RUS                                          5 (3.7%)       8 (6%)         6 (4.5%)       19 (4.8%)  </span></span>
-<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a><span class="co">#&gt;   JPN                                          5 (3.7%)       4 (3%)         9 (6.8%)       18 (4.5%)  </span></span>
-<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a><span class="co">#&gt;   GBR                                           4 (3%)       3 (2.2%)        2 (1.5%)        9 (2.2%)  </span></span>
-<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a><span class="co">#&gt;   CAN                                          3 (2.2%)      2 (1.5%)        3 (2.3%)         8 (2%)   </span></span>
-<span id="cb6-39"><a href="#cb6-39" tabindex="-1"></a><span class="co">#&gt;   CHE                                              0             0              0               0      </span></span>
-<span id="cb6-40"><a href="#cb6-40" tabindex="-1"></a><span class="co">#&gt; ———————————————————————————————————————————————————————————————————————————————————————————————————————</span></span>
-<span id="cb6-41"><a href="#cb6-41" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb6-42"><a href="#cb6-42" tabindex="-1"></a><span class="co">#&gt; t_dm_slide footnote</span></span>
-<span id="cb6-43"><a href="#cb6-43" tabindex="-1"></a><span class="co">#&gt; Confidential and for internal use only</span></span>
-<span id="cb6-44"><a href="#cb6-44" tabindex="-1"></a><span class="co">#&gt; GitHub repository: https://github.com/insightsengineering/autoslider.core.git</span></span>
-<span id="cb6-45"><a href="#cb6-45" tabindex="-1"></a><span class="co">#&gt; Git hash: ce58a63d30d6386fc98113f72c42ef6a0f843336</span></span>
-<span id="cb6-46"><a href="#cb6-46" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb6-47"><a href="#cb6-47" tabindex="-1"></a><span class="co">#&gt; Slot &quot;titles&quot;:</span></span>
-<span id="cb6-48"><a href="#cb6-48" tabindex="-1"></a><span class="co">#&gt;  Patient Demographics and Baseline Characteristics, Intent to Treat Population</span></span>
-<span id="cb6-49"><a href="#cb6-49" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb6-50"><a href="#cb6-50" tabindex="-1"></a><span class="co">#&gt; Slot &quot;footnotes&quot;:</span></span>
-<span id="cb6-51"><a href="#cb6-51" tabindex="-1"></a><span class="co">#&gt; [1] &quot;t_dm_slide footnote&quot;                   </span></span>
-<span id="cb6-52"><a href="#cb6-52" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Confidential and for internal use only&quot;</span></span>
-<span id="cb6-53"><a href="#cb6-53" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb6-54"><a href="#cb6-54" tabindex="-1"></a><span class="co">#&gt; Slot &quot;paper&quot;:</span></span>
-<span id="cb6-55"><a href="#cb6-55" tabindex="-1"></a><span class="co">#&gt; [1] &quot;L6&quot;</span></span>
-<span id="cb6-56"><a href="#cb6-56" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb6-57"><a href="#cb6-57" tabindex="-1"></a><span class="co">#&gt; Slot &quot;width&quot;:</span></span>
-<span id="cb6-58"><a href="#cb6-58" tabindex="-1"></a><span class="co">#&gt; [1] 41 11 11 14 12</span></span></code></pre></div>
-<p>Now we can save it to a slide. For this example I store the output in
-a tempfile, you would likely store it in the <code>outputs/</code>
-folder.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Output to slides with template and color theme</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>outputs <span class="sc">%&gt;%</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">generate_slides</span>(</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    <span class="at">outfile =</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">&quot;.ppts&quot;</span>),</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>    <span class="at">template =</span> <span class="fu">file.path</span>(<span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">&quot;autoslider.core&quot;</span>), <span class="st">&quot;/theme/basic.pptx&quot;</span>),</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>    <span class="at">table_format =</span> autoslider_format</span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  )</span></code></pre></div>
-</div>
-</div>
-<div id="writing-custom-functions" class="section level1">
-<h1>Writing custom functions</h1>
-<p>Unless your requirements are really specific, the most efficient way
-to write a study function is to base it off of a template function from
-the <a href="https://insightsengineering.github.io/tlg-catalog/stable/">TLG
-catalogue</a>.</p>
-<p>The function you would want to create should take as input a list of
-datasets and potentially additional arguments. Within the function, you
-should not worry about filtering the data, as this should be taken care
-of with the <code>filters.yml</code> file and the general workflow. To
-work properly with <code>autoslider.core</code> your function should
-return either:</p>
-<ul>
-<li>A <code>ggplot2</code> object for graphs</li>
-<li>An <code>rtables</code> object for tables</li>
-<li>An <code>rlistings</code> object for listings</li>
-</ul>
-<p>That’s it!</p>
-<p>Now let’s see how this works in practice.</p>
-<div id="create-example-function" class="section level2">
-<h2>create example function</h2>
-<p>A function that works within the <code>autoslideR</code> workflow
-should also work on its own. This makes it straightforward to develop
-and test.</p>
-<p>As an example, lets create a function corresponding to a <a href="https://insightsengineering.github.io/tlg-catalog/stable/">TLG
-catalogue</a> output.</p>
-<p>We are going create a table based on <a href="https://insightsengineering.github.io/tlg-catalog/stable/tables/lab-results/lbt06.html">LBT06
-Laboratory Abnormalities by Visit and Baseline Status</a>:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>lbt06 <span class="ot">&lt;-</span> <span class="cf">function</span>(datasets) {</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="co"># Ensure character variables are converted to factors and empty strings and NAs are explicit missing levels.</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  adsl <span class="ot">&lt;-</span> datasets<span class="sc">$</span>adsl <span class="sc">%&gt;%</span> tern<span class="sc">::</span><span class="fu">df_explicit_na</span>()</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  adlb <span class="ot">&lt;-</span> datasets<span class="sc">$</span>adlb <span class="sc">%&gt;%</span> tern<span class="sc">::</span><span class="fu">df_explicit_na</span>()</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="co"># Please note that df_explict_na has a na_level argument defaulting to &quot;&lt;Missing&gt;&quot;,</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="co"># Please don&#39;t change the na_level to anything other than NA, empty string or the default &quot;&lt;Missing&gt;&quot;.</span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  adlb_f <span class="ot">&lt;-</span> adlb <span class="sc">%&gt;%</span></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(ABLFL <span class="sc">!=</span> <span class="st">&quot;Y&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span>(AVISIT <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;SCREENING&quot;</span>, <span class="st">&quot;BASELINE&quot;</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">AVISIT =</span> <span class="fu">droplevels</span>(AVISIT)) <span class="sc">%&gt;%</span></span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>    formatters<span class="sc">::</span><span class="fu">var_relabel</span>(<span class="at">AVISIT =</span> <span class="st">&quot;Visit&quot;</span>)</span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a></span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>  adlb_f_crp <span class="ot">&lt;-</span> adlb_f <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(PARAMCD <span class="sc">==</span> <span class="st">&quot;CRP&quot;</span>)</span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a></span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>  <span class="co"># Define the split function</span></span>
-<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>  split_fun <span class="ot">&lt;-</span> rtables<span class="sc">::</span>drop_split_levels</span>
-<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a></span>
-<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>  lyt <span class="ot">&lt;-</span> rtables<span class="sc">::</span><span class="fu">basic_table</span>(<span class="at">show_colcounts =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a>    rtables<span class="sc">::</span><span class="fu">split_cols_by</span>(<span class="st">&quot;ARM&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a>    rtables<span class="sc">::</span><span class="fu">split_rows_by</span>(<span class="st">&quot;AVISIT&quot;</span>,</span>
-<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a>      <span class="at">split_fun =</span> split_fun, <span class="at">label_pos =</span> <span class="st">&quot;topleft&quot;</span>,</span>
-<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a>      <span class="at">split_label =</span> formatters<span class="sc">::</span><span class="fu">obj_label</span>(adlb_f_crp<span class="sc">$</span>AVISIT)</span>
-<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
-<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a>    tern<span class="sc">::</span><span class="fu">count_abnormal_by_baseline</span>(</span>
-<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a>      <span class="st">&quot;ANRIND&quot;</span>,</span>
-<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a>      <span class="at">abnormal =</span> <span class="fu">c</span>(<span class="at">Low =</span> <span class="st">&quot;LOW&quot;</span>, <span class="at">High =</span> <span class="st">&quot;HIGH&quot;</span>),</span>
-<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a>      <span class="at">.indent_mods =</span> <span class="dv">4</span><span class="dt">L</span></span>
-<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
-<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a>    tern<span class="sc">::</span><span class="fu">append_varlabels</span>(adlb_f_crp, <span class="st">&quot;ANRIND&quot;</span>, <span class="at">indent =</span> <span class="dv">1</span><span class="dt">L</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a>    rtables<span class="sc">::</span><span class="fu">append_topleft</span>(<span class="st">&quot;    Baseline Status&quot;</span>)</span>
-<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a></span>
-<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a>  result <span class="ot">&lt;-</span> rtables<span class="sc">::</span><span class="fu">build_table</span>(</span>
-<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a>    <span class="at">lyt =</span> lyt,</span>
-<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a>    <span class="at">df =</span> adlb_f_crp,</span>
-<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a>    <span class="at">alt_counts_df =</span> adsl</span>
-<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a>    rtables<span class="sc">::</span><span class="fu">trim_rows</span>()</span>
-<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a></span>
-<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a>  result</span>
-<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a>}</span></code></pre></div>
-<p>Let’s see if this works:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">lbt06</span>(data)</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; Visit                                                                                  </span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt;   Analysis Reference Range Indicator     A: Drug X        B: Placebo     C: Combination</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt;     Baseline Status                       (N=134)          (N=134)          (N=132)    </span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt; ———————————————————————————————————————————————————————————————————————————————————————</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; WEEK 1 DAY 8                                                                           </span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt;   Low                                                                                  </span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt;             Not low                    16/119 (13.4%)   22/113 (19.5%)   24/112 (21.4%)</span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt;             Low                         2/15 (13.3%)     2/21 (9.5%)       7/20 (35%)  </span></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt;             Total                      18/134 (13.4%)   24/134 (17.9%)   31/132 (23.5%)</span></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt;   High                                                                                 </span></span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt;             Not high                   21/114 (18.4%)   20/112 (17.9%)   17/115 (14.8%)</span></span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt;             High                         2/20 (10%)      4/22 (18.2%)     3/17 (17.6%) </span></span>
-<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt;             Total                      23/134 (17.2%)   24/134 (17.9%)   20/132 (15.2%)</span></span>
-<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt; WEEK 2 DAY 15                                                                          </span></span>
-<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt;   Low                                                                                  </span></span>
-<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt;             Not low                    26/119 (21.8%)   20/113 (17.7%)   12/112 (10.7%)</span></span>
-<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#&gt;             Low                         2/15 (13.3%)     3/21 (14.3%)      4/20 (20%)  </span></span>
-<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a><span class="co">#&gt;             Total                      28/134 (20.9%)   23/134 (17.2%)   16/132 (12.1%)</span></span>
-<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co">#&gt;   High                                                                                 </span></span>
-<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a><span class="co">#&gt;             Not high                   15/114 (13.2%)   17/112 (15.2%)    15/115 (13%) </span></span>
-<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="co">#&gt;             High                         2/20 (10%)      4/22 (18.2%)     4/17 (23.5%) </span></span>
-<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="co">#&gt;             Total                      17/134 (12.7%)   21/134 (15.7%)   19/132 (14.4%)</span></span>
-<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt; WEEK 3 DAY 22                                                                          </span></span>
-<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="co">#&gt;   Low                                                                                  </span></span>
-<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="co">#&gt;             Not low                    15/119 (12.6%)   21/113 (18.6%)   18/112 (16.1%)</span></span>
-<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="co">#&gt;             Low                             0/15         3/21 (14.3%)         0/20     </span></span>
-<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a><span class="co">#&gt;             Total                      15/134 (11.2%)   24/134 (17.9%)   18/132 (13.6%)</span></span>
-<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a><span class="co">#&gt;   High                                                                                 </span></span>
-<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a><span class="co">#&gt;             Not high                   22/114 (19.3%)   18/112 (16.1%)   17/115 (14.8%)</span></span>
-<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a><span class="co">#&gt;             High                         2/20 (10%)      5/22 (22.7%)     1/17 (5.9%)  </span></span>
-<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a><span class="co">#&gt;             Total                      24/134 (17.9%)   23/134 (17.2%)   18/132 (13.6%)</span></span>
-<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a><span class="co">#&gt; WEEK 4 DAY 29                                                                          </span></span>
-<span id="cb9-34"><a href="#cb9-34" tabindex="-1"></a><span class="co">#&gt;   Low                                                                                  </span></span>
-<span id="cb9-35"><a href="#cb9-35" tabindex="-1"></a><span class="co">#&gt;             Not low                    30/119 (25.2%)   13/113 (11.5%)   16/112 (14.3%)</span></span>
-<span id="cb9-36"><a href="#cb9-36" tabindex="-1"></a><span class="co">#&gt;             Low                          3/15 (20%)      2/21 (9.5%)       5/20 (25%)  </span></span>
-<span id="cb9-37"><a href="#cb9-37" tabindex="-1"></a><span class="co">#&gt;             Total                      33/134 (24.6%)   15/134 (11.2%)   21/132 (15.9%)</span></span>
-<span id="cb9-38"><a href="#cb9-38" tabindex="-1"></a><span class="co">#&gt;   High                                                                                 </span></span>
-<span id="cb9-39"><a href="#cb9-39" tabindex="-1"></a><span class="co">#&gt;             Not high                   17/114 (14.9%)   11/112 (9.8%)    16/115 (13.9%)</span></span>
-<span id="cb9-40"><a href="#cb9-40" tabindex="-1"></a><span class="co">#&gt;             High                         2/20 (10%)      6/22 (27.3%)     3/17 (17.6%) </span></span>
-<span id="cb9-41"><a href="#cb9-41" tabindex="-1"></a><span class="co">#&gt;             Total                      19/134 (14.2%)   17/134 (12.7%)   19/132 (14.4%)</span></span>
-<span id="cb9-42"><a href="#cb9-42" tabindex="-1"></a><span class="co">#&gt; WEEK 5 DAY 36                                                                          </span></span>
-<span id="cb9-43"><a href="#cb9-43" tabindex="-1"></a><span class="co">#&gt;   Low                                                                                  </span></span>
-<span id="cb9-44"><a href="#cb9-44" tabindex="-1"></a><span class="co">#&gt;             Not low                    17/119 (14.3%)   19/113 (16.8%)   16/112 (14.3%)</span></span>
-<span id="cb9-45"><a href="#cb9-45" tabindex="-1"></a><span class="co">#&gt;             Low                         2/15 (13.3%)     3/21 (14.3%)      5/20 (25%)  </span></span>
-<span id="cb9-46"><a href="#cb9-46" tabindex="-1"></a><span class="co">#&gt;             Total                      19/134 (14.2%)   22/134 (16.4%)   21/132 (15.9%)</span></span>
-<span id="cb9-47"><a href="#cb9-47" tabindex="-1"></a><span class="co">#&gt;   High                                                                                 </span></span>
-<span id="cb9-48"><a href="#cb9-48" tabindex="-1"></a><span class="co">#&gt;             Not high                   19/114 (16.7%)   17/112 (15.2%)   11/115 (9.6%) </span></span>
-<span id="cb9-49"><a href="#cb9-49" tabindex="-1"></a><span class="co">#&gt;             High                         4/20 (20%)      6/22 (27.3%)     2/17 (11.8%) </span></span>
-<span id="cb9-50"><a href="#cb9-50" tabindex="-1"></a><span class="co">#&gt;             Total                      23/134 (17.2%)   23/134 (17.2%)   13/132 (9.8%)</span></span></code></pre></div>
-<p>This works!</p>
-<p>To increase code-reusability and to have filtering control
-centralised in the <code>filters.yml</code> file, I would recommend to
-remove most filtering processes from the function, namely the following
-chunk:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>adlb_f <span class="ot">&lt;-</span> eg_adlb <span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(ABLFL <span class="sc">!=</span> <span class="st">&quot;Y&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span>(AVISIT <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;SCREENING&quot;</span>, <span class="st">&quot;BASELINE&quot;</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">AVISIT =</span> <span class="fu">droplevels</span>(AVISIT)) <span class="sc">%&gt;%</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  formatters<span class="sc">::</span><span class="fu">var_relabel</span>(<span class="at">AVISIT =</span> <span class="st">&quot;Visit&quot;</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>adlb_f_crp <span class="ot">&lt;-</span> adlb_f <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(PARAMCD <span class="sc">==</span> <span class="st">&quot;CRP&quot;</span>)</span></code></pre></div>
-<p>For this, I’ll add two separate filters into the
-<code>filters.yml</code> file; one to filter the right parameter, and
-one to take care of the AVISIT and ABLFL.</p>
-<pre><code>LBCRP:
-  title: CRP Values
-  condition: PARAMCD == &#39;CRP&#39;
-  target: adlb
-  type: slref
-LBNOBAS:
-  title: Only Visits After Baseline
-  condition: ABLFL != &quot;Y&quot; &amp; !(AVISIT %in% c(&quot;SCREENING&quot;, &quot;BASELINE&quot;))
-  target: adlb
-  type: slref
-</code></pre>
-<p>And the corresponding specs entry:</p>
-<pre><code>- program: lbt06
-  titles: Patient Disposition ({filter_titles(&quot;adsl&quot;)})
-  footnotes: &#39;t_ds footnotes&#39;
-  paper: L6
-  suffix: FAS_LBCRP_LBNOBAS
-</code></pre>
-<p>Now we can rewrite the function. But keep in mind: We are applying a
-filter to the ADSL data set but create the output on ADLB. To forward
-the filter to ADLB, we must semi-join the ADSL to ADLB.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>lbt06 <span class="ot">&lt;-</span> <span class="cf">function</span>(datasets) {</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="co"># Ensure character variables are converted to factors and empty strings and NAs are explicit missing levels.</span></span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  adsl <span class="ot">&lt;-</span> datasets<span class="sc">$</span>adsl <span class="sc">%&gt;%</span> tern<span class="sc">::</span><span class="fu">df_explicit_na</span>()</span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  adlb <span class="ot">&lt;-</span> datasets<span class="sc">$</span>adlb <span class="sc">%&gt;%</span> tern<span class="sc">::</span><span class="fu">df_explicit_na</span>()</span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  <span class="co"># join adsl to adlb</span></span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>  adlb <span class="ot">&lt;-</span> adlb <span class="sc">%&gt;%</span> <span class="fu">semi_join</span>(adsl, <span class="at">by =</span> <span class="st">&quot;USUBJID&quot;</span>)</span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>  <span class="co"># Please note that df_explict_na has a na_level argument defaulting to &quot;&lt;Missing&gt;&quot;,</span></span>
-<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>  <span class="co"># Please don&#39;t change the na_level to anything other than NA, empty string or the default &quot;&lt;Missing&gt;&quot;.</span></span>
-<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>  adlb_f <span class="ot">&lt;-</span> adlb <span class="sc">%&gt;%</span></span>
-<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">AVISIT =</span> <span class="fu">droplevels</span>(AVISIT)) <span class="sc">%&gt;%</span></span>
-<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>    formatters<span class="sc">::</span><span class="fu">var_relabel</span>(<span class="at">AVISIT =</span> <span class="st">&quot;Visit&quot;</span>)</span>
-<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a></span>
-<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>  <span class="co"># Define the split function</span></span>
-<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a>  split_fun <span class="ot">&lt;-</span> rtables<span class="sc">::</span>drop_split_levels</span>
-<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a></span>
-<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a>  lyt <span class="ot">&lt;-</span> rtables<span class="sc">::</span><span class="fu">basic_table</span>(<span class="at">show_colcounts =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a>    rtables<span class="sc">::</span><span class="fu">split_cols_by</span>(<span class="st">&quot;ARM&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a>    rtables<span class="sc">::</span><span class="fu">split_rows_by</span>(<span class="st">&quot;AVISIT&quot;</span>,</span>
-<span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a>      <span class="at">split_fun =</span> split_fun, <span class="at">label_pos =</span> <span class="st">&quot;topleft&quot;</span>,</span>
-<span id="cb13-24"><a href="#cb13-24" tabindex="-1"></a>      <span class="at">split_label =</span> formatters<span class="sc">::</span><span class="fu">obj_label</span>(adlb_f_crp<span class="sc">$</span>AVISIT)</span>
-<span id="cb13-25"><a href="#cb13-25" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
-<span id="cb13-26"><a href="#cb13-26" tabindex="-1"></a>    tern<span class="sc">::</span><span class="fu">count_abnormal_by_baseline</span>(</span>
-<span id="cb13-27"><a href="#cb13-27" tabindex="-1"></a>      <span class="st">&quot;ANRIND&quot;</span>,</span>
-<span id="cb13-28"><a href="#cb13-28" tabindex="-1"></a>      <span class="at">abnormal =</span> <span class="fu">c</span>(<span class="at">Low =</span> <span class="st">&quot;LOW&quot;</span>, <span class="at">High =</span> <span class="st">&quot;HIGH&quot;</span>),</span>
-<span id="cb13-29"><a href="#cb13-29" tabindex="-1"></a>      <span class="at">.indent_mods =</span> <span class="dv">4</span><span class="dt">L</span></span>
-<span id="cb13-30"><a href="#cb13-30" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
-<span id="cb13-31"><a href="#cb13-31" tabindex="-1"></a>    tern<span class="sc">::</span><span class="fu">append_varlabels</span>(adlb_f, <span class="st">&quot;ANRIND&quot;</span>, <span class="at">indent =</span> <span class="dv">1</span><span class="dt">L</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-32"><a href="#cb13-32" tabindex="-1"></a>    rtables<span class="sc">::</span><span class="fu">append_topleft</span>(<span class="st">&quot;    Baseline Status&quot;</span>)</span>
-<span id="cb13-33"><a href="#cb13-33" tabindex="-1"></a></span>
-<span id="cb13-34"><a href="#cb13-34" tabindex="-1"></a>  result <span class="ot">&lt;-</span> rtables<span class="sc">::</span><span class="fu">build_table</span>(</span>
-<span id="cb13-35"><a href="#cb13-35" tabindex="-1"></a>    <span class="at">lyt =</span> lyt,</span>
-<span id="cb13-36"><a href="#cb13-36" tabindex="-1"></a>    <span class="at">df =</span> adlb_f,</span>
-<span id="cb13-37"><a href="#cb13-37" tabindex="-1"></a>    <span class="at">alt_counts_df =</span> adsl</span>
-<span id="cb13-38"><a href="#cb13-38" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb13-39"><a href="#cb13-39" tabindex="-1"></a>    rtables<span class="sc">::</span><span class="fu">trim_rows</span>()</span>
-<span id="cb13-40"><a href="#cb13-40" tabindex="-1"></a></span>
-<span id="cb13-41"><a href="#cb13-41" tabindex="-1"></a>  result</span>
-<span id="cb13-42"><a href="#cb13-42" tabindex="-1"></a>}</span></code></pre></div>
-<p>lets do a dry-run before we integrate this function into the
-workflow:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># filter data | this step will be performed by the workflow later on</span></span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> eg_adsl</span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>adlb <span class="ot">&lt;-</span> eg_adlb</span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>adlb_f <span class="ot">&lt;-</span> adlb <span class="sc">%&gt;%</span></span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(ABLFL <span class="sc">!=</span> <span class="st">&quot;Y&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span>(AVISIT <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;SCREENING&quot;</span>, <span class="st">&quot;BASELINE&quot;</span>)))</span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>adlb_f_crp <span class="ot">&lt;-</span> adlb_f <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(PARAMCD <span class="sc">==</span> <span class="st">&quot;CRP&quot;</span>)</span>
-<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a></span>
-<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a>adsl_f <span class="ot">&lt;-</span> adsl <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ITTFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">lbt06</span>(<span class="fu">list</span>(<span class="at">adsl =</span> adsl_f, <span class="at">adlb =</span> adlb_f_crp))</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="co">#&gt; Analysis Visit                                                                         </span></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="co">#&gt;   Analysis Reference Range Indicator     A: Drug X        B: Placebo     C: Combination</span></span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co">#&gt;     Baseline Status                       (N=134)          (N=134)          (N=132)    </span></span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#&gt; ———————————————————————————————————————————————————————————————————————————————————————</span></span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt; WEEK 1 DAY 8                                                                           </span></span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt;   Low                                                                                  </span></span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt;             Not low                    16/119 (13.4%)   22/113 (19.5%)   24/112 (21.4%)</span></span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="co">#&gt;             Low                         2/15 (13.3%)     2/21 (9.5%)       7/20 (35%)  </span></span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="co">#&gt;             Total                      18/134 (13.4%)   24/134 (17.9%)   31/132 (23.5%)</span></span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt;   High                                                                                 </span></span>
-<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="co">#&gt;             Not high                   21/114 (18.4%)   20/112 (17.9%)   17/115 (14.8%)</span></span>
-<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="co">#&gt;             High                         2/20 (10%)      4/22 (18.2%)     3/17 (17.6%) </span></span>
-<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a><span class="co">#&gt;             Total                      23/134 (17.2%)   24/134 (17.9%)   20/132 (15.2%)</span></span>
-<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a><span class="co">#&gt; WEEK 2 DAY 15                                                                          </span></span>
-<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a><span class="co">#&gt;   Low                                                                                  </span></span>
-<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a><span class="co">#&gt;             Not low                    26/119 (21.8%)   20/113 (17.7%)   12/112 (10.7%)</span></span>
-<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a><span class="co">#&gt;             Low                         2/15 (13.3%)     3/21 (14.3%)      4/20 (20%)  </span></span>
-<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a><span class="co">#&gt;             Total                      28/134 (20.9%)   23/134 (17.2%)   16/132 (12.1%)</span></span>
-<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a><span class="co">#&gt;   High                                                                                 </span></span>
-<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a><span class="co">#&gt;             Not high                   15/114 (13.2%)   17/112 (15.2%)    15/115 (13%) </span></span>
-<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a><span class="co">#&gt;             High                         2/20 (10%)      4/22 (18.2%)     4/17 (23.5%) </span></span>
-<span id="cb15-23"><a href="#cb15-23" tabindex="-1"></a><span class="co">#&gt;             Total                      17/134 (12.7%)   21/134 (15.7%)   19/132 (14.4%)</span></span>
-<span id="cb15-24"><a href="#cb15-24" tabindex="-1"></a><span class="co">#&gt; WEEK 3 DAY 22                                                                          </span></span>
-<span id="cb15-25"><a href="#cb15-25" tabindex="-1"></a><span class="co">#&gt;   Low                                                                                  </span></span>
-<span id="cb15-26"><a href="#cb15-26" tabindex="-1"></a><span class="co">#&gt;             Not low                    15/119 (12.6%)   21/113 (18.6%)   18/112 (16.1%)</span></span>
-<span id="cb15-27"><a href="#cb15-27" tabindex="-1"></a><span class="co">#&gt;             Low                             0/15         3/21 (14.3%)         0/20     </span></span>
-<span id="cb15-28"><a href="#cb15-28" tabindex="-1"></a><span class="co">#&gt;             Total                      15/134 (11.2%)   24/134 (17.9%)   18/132 (13.6%)</span></span>
-<span id="cb15-29"><a href="#cb15-29" tabindex="-1"></a><span class="co">#&gt;   High                                                                                 </span></span>
-<span id="cb15-30"><a href="#cb15-30" tabindex="-1"></a><span class="co">#&gt;             Not high                   22/114 (19.3%)   18/112 (16.1%)   17/115 (14.8%)</span></span>
-<span id="cb15-31"><a href="#cb15-31" tabindex="-1"></a><span class="co">#&gt;             High                         2/20 (10%)      5/22 (22.7%)     1/17 (5.9%)  </span></span>
-<span id="cb15-32"><a href="#cb15-32" tabindex="-1"></a><span class="co">#&gt;             Total                      24/134 (17.9%)   23/134 (17.2%)   18/132 (13.6%)</span></span>
-<span id="cb15-33"><a href="#cb15-33" tabindex="-1"></a><span class="co">#&gt; WEEK 4 DAY 29                                                                          </span></span>
-<span id="cb15-34"><a href="#cb15-34" tabindex="-1"></a><span class="co">#&gt;   Low                                                                                  </span></span>
-<span id="cb15-35"><a href="#cb15-35" tabindex="-1"></a><span class="co">#&gt;             Not low                    30/119 (25.2%)   13/113 (11.5%)   16/112 (14.3%)</span></span>
-<span id="cb15-36"><a href="#cb15-36" tabindex="-1"></a><span class="co">#&gt;             Low                          3/15 (20%)      2/21 (9.5%)       5/20 (25%)  </span></span>
-<span id="cb15-37"><a href="#cb15-37" tabindex="-1"></a><span class="co">#&gt;             Total                      33/134 (24.6%)   15/134 (11.2%)   21/132 (15.9%)</span></span>
-<span id="cb15-38"><a href="#cb15-38" tabindex="-1"></a><span class="co">#&gt;   High                                                                                 </span></span>
-<span id="cb15-39"><a href="#cb15-39" tabindex="-1"></a><span class="co">#&gt;             Not high                   17/114 (14.9%)   11/112 (9.8%)    16/115 (13.9%)</span></span>
-<span id="cb15-40"><a href="#cb15-40" tabindex="-1"></a><span class="co">#&gt;             High                         2/20 (10%)      6/22 (27.3%)     3/17 (17.6%) </span></span>
-<span id="cb15-41"><a href="#cb15-41" tabindex="-1"></a><span class="co">#&gt;             Total                      19/134 (14.2%)   17/134 (12.7%)   19/132 (14.4%)</span></span>
-<span id="cb15-42"><a href="#cb15-42" tabindex="-1"></a><span class="co">#&gt; WEEK 5 DAY 36                                                                          </span></span>
-<span id="cb15-43"><a href="#cb15-43" tabindex="-1"></a><span class="co">#&gt;   Low                                                                                  </span></span>
-<span id="cb15-44"><a href="#cb15-44" tabindex="-1"></a><span class="co">#&gt;             Not low                    17/119 (14.3%)   19/113 (16.8%)   16/112 (14.3%)</span></span>
-<span id="cb15-45"><a href="#cb15-45" tabindex="-1"></a><span class="co">#&gt;             Low                         2/15 (13.3%)     3/21 (14.3%)      5/20 (25%)  </span></span>
-<span id="cb15-46"><a href="#cb15-46" tabindex="-1"></a><span class="co">#&gt;             Total                      19/134 (14.2%)   22/134 (16.4%)   21/132 (15.9%)</span></span>
-<span id="cb15-47"><a href="#cb15-47" tabindex="-1"></a><span class="co">#&gt;   High                                                                                 </span></span>
-<span id="cb15-48"><a href="#cb15-48" tabindex="-1"></a><span class="co">#&gt;             Not high                   19/114 (16.7%)   17/112 (15.2%)   11/115 (9.6%) </span></span>
-<span id="cb15-49"><a href="#cb15-49" tabindex="-1"></a><span class="co">#&gt;             High                         4/20 (20%)      6/22 (27.3%)     2/17 (11.8%) </span></span>
-<span id="cb15-50"><a href="#cb15-50" tabindex="-1"></a><span class="co">#&gt;             Total                      23/134 (17.2%)   23/134 (17.2%)   13/132 (9.8%)</span></span></code></pre></div>
-<p>Looks like it works!</p>
-</div>
-<div id="integrate-it-into-the-general-workflow" class="section level2">
-<h2>Integrate it into the general workflow</h2>
-<p>You have to keep in mind that the function you created must be in the
-global environment when calling the <code>create_outputs</code>
-function. This is the case for all <code>autoslider.core</code>
-functions, as you attach the <code>autoslider.core</code> package (with
-your <code>library(autoslider.core)</code> call), so all (exported)
-function of the <code>autoslider.core</code> package are available.</p>
-<p>If you store your custom function in a separate script, you would
-need to source that script at some point before calling the function,
-i.e.:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;programs/R/output_functions.R&quot;</span>)</span></code></pre></div>
-<p>Now you just have to make sure the two <code>.yml</code> files are
-correctly specified.</p>
-<p>Set the path to the <code>.yml</code> files.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>filters <span class="ot">&lt;-</span> <span class="st">&quot;filters.yml&quot;</span></span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>spec_file <span class="ot">&lt;-</span> <span class="st">&quot;specs.yml&quot;</span></span></code></pre></div>
-<p>Then load the filters and generate the outputs.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>filters<span class="sc">::</span><span class="fu">load_filters</span>(filters, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> spec_file <span class="sc">%&gt;%</span></span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  <span class="fu">read_spec</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  <span class="fu">generate_outputs</span>(data) <span class="sc">%&gt;%</span></span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>  <span class="fu">decorate_outputs</span>()</span>
-<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co">#&gt; ❯ Running program `t_ds_slide` with suffix &#39;ITT&#39;.</span></span>
-<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="co">#&gt; Filter &#39;ITT&#39; matched target ADSL.</span></span>
-<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="co">#&gt; 400/400 records matched the filter condition `ITTFL == &#39;Y&#39;`.</span></span>
-<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="co">#&gt; ❯ Running program `t_dm_slide` with suffix &#39;ITT&#39;.</span></span>
-<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a><span class="co">#&gt; Filter &#39;ITT&#39; matched target ADSL.</span></span>
-<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a><span class="co">#&gt; 400/400 records matched the filter condition `ITTFL == &#39;Y&#39;`.</span></span>
-<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a><span class="co">#&gt; ❯ Running program `lbt06` with suffix &#39;ITT_LBCRP_LBNOBAS&#39;.</span></span>
-<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a><span class="co">#&gt; Filter &#39;ITT&#39; matched target ADSL.</span></span>
-<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a><span class="co">#&gt; 400/400 records matched the filter condition `ITTFL == &#39;Y&#39;`.</span></span>
-<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a><span class="co">#&gt; Filters &#39;LBCRP&#39;, &#39;LBNOBAS&#39; matched target ADLB.</span></span>
-<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a><span class="co">#&gt; 2000/8400 records matched the filter condition `PARAMCD == &#39;CRP&#39; &amp; (ABLFL != &#39;Y&#39; &amp; !(AVISIT %in% c(&#39;SCREENING&#39;, &#39;BASELINE&#39;)))`.</span></span>
-<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a></span>
-<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a>outputs<span class="sc">$</span>lbt06_ITT_LBCRP_LBNOBAS</span>
-<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a><span class="co">#&gt; An object of class &quot;dVTableTree&quot;</span></span>
-<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a><span class="co">#&gt; Slot &quot;tbl&quot;:</span></span>
-<span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a><span class="co">#&gt;  Patient Disposition (Intent to Treat Population)</span></span>
-<span id="cb18-23"><a href="#cb18-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb18-24"><a href="#cb18-24" tabindex="-1"></a><span class="co">#&gt; ———————————————————————————————————————————————————————————————————————————————————————</span></span>
-<span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a><span class="co">#&gt; Analysis Visit                                                                         </span></span>
-<span id="cb18-26"><a href="#cb18-26" tabindex="-1"></a><span class="co">#&gt;   Analysis Reference Range Indicator     A: Drug X        B: Placebo     C: Combination</span></span>
-<span id="cb18-27"><a href="#cb18-27" tabindex="-1"></a><span class="co">#&gt;     Baseline Status                       (N=134)          (N=134)          (N=132)    </span></span>
-<span id="cb18-28"><a href="#cb18-28" tabindex="-1"></a><span class="co">#&gt; ———————————————————————————————————————————————————————————————————————————————————————</span></span>
-<span id="cb18-29"><a href="#cb18-29" tabindex="-1"></a><span class="co">#&gt; WEEK 1 DAY 8                                                                           </span></span>
-<span id="cb18-30"><a href="#cb18-30" tabindex="-1"></a><span class="co">#&gt;   Low                                                                                  </span></span>
-<span id="cb18-31"><a href="#cb18-31" tabindex="-1"></a><span class="co">#&gt;             Not low                    16/119 (13.4%)   22/113 (19.5%)   24/112 (21.4%)</span></span>
-<span id="cb18-32"><a href="#cb18-32" tabindex="-1"></a><span class="co">#&gt;             Low                         2/15 (13.3%)     2/21 (9.5%)       7/20 (35%)  </span></span>
-<span id="cb18-33"><a href="#cb18-33" tabindex="-1"></a><span class="co">#&gt;             Total                      18/134 (13.4%)   24/134 (17.9%)   31/132 (23.5%)</span></span>
-<span id="cb18-34"><a href="#cb18-34" tabindex="-1"></a><span class="co">#&gt;   High                                                                                 </span></span>
-<span id="cb18-35"><a href="#cb18-35" tabindex="-1"></a><span class="co">#&gt;             Not high                   21/114 (18.4%)   20/112 (17.9%)   17/115 (14.8%)</span></span>
-<span id="cb18-36"><a href="#cb18-36" tabindex="-1"></a><span class="co">#&gt;             High                         2/20 (10%)      4/22 (18.2%)     3/17 (17.6%) </span></span>
-<span id="cb18-37"><a href="#cb18-37" tabindex="-1"></a><span class="co">#&gt;             Total                      23/134 (17.2%)   24/134 (17.9%)   20/132 (15.2%)</span></span>
-<span id="cb18-38"><a href="#cb18-38" tabindex="-1"></a><span class="co">#&gt; WEEK 2 DAY 15                                                                          </span></span>
-<span id="cb18-39"><a href="#cb18-39" tabindex="-1"></a><span class="co">#&gt;   Low                                                                                  </span></span>
-<span id="cb18-40"><a href="#cb18-40" tabindex="-1"></a><span class="co">#&gt;             Not low                    26/119 (21.8%)   20/113 (17.7%)   12/112 (10.7%)</span></span>
-<span id="cb18-41"><a href="#cb18-41" tabindex="-1"></a><span class="co">#&gt;             Low                         2/15 (13.3%)     3/21 (14.3%)      4/20 (20%)  </span></span>
-<span id="cb18-42"><a href="#cb18-42" tabindex="-1"></a><span class="co">#&gt;             Total                      28/134 (20.9%)   23/134 (17.2%)   16/132 (12.1%)</span></span>
-<span id="cb18-43"><a href="#cb18-43" tabindex="-1"></a><span class="co">#&gt;   High                                                                                 </span></span>
-<span id="cb18-44"><a href="#cb18-44" tabindex="-1"></a><span class="co">#&gt;             Not high                   15/114 (13.2%)   17/112 (15.2%)    15/115 (13%) </span></span>
-<span id="cb18-45"><a href="#cb18-45" tabindex="-1"></a><span class="co">#&gt;             High                         2/20 (10%)      4/22 (18.2%)     4/17 (23.5%) </span></span>
-<span id="cb18-46"><a href="#cb18-46" tabindex="-1"></a><span class="co">#&gt;             Total                      17/134 (12.7%)   21/134 (15.7%)   19/132 (14.4%)</span></span>
-<span id="cb18-47"><a href="#cb18-47" tabindex="-1"></a><span class="co">#&gt; WEEK 3 DAY 22                                                                          </span></span>
-<span id="cb18-48"><a href="#cb18-48" tabindex="-1"></a><span class="co">#&gt;   Low                                                                                  </span></span>
-<span id="cb18-49"><a href="#cb18-49" tabindex="-1"></a><span class="co">#&gt;             Not low                    15/119 (12.6%)   21/113 (18.6%)   18/112 (16.1%)</span></span>
-<span id="cb18-50"><a href="#cb18-50" tabindex="-1"></a><span class="co">#&gt;             Low                             0/15         3/21 (14.3%)         0/20     </span></span>
-<span id="cb18-51"><a href="#cb18-51" tabindex="-1"></a><span class="co">#&gt;             Total                      15/134 (11.2%)   24/134 (17.9%)   18/132 (13.6%)</span></span>
-<span id="cb18-52"><a href="#cb18-52" tabindex="-1"></a><span class="co">#&gt;   High                                                                                 </span></span>
-<span id="cb18-53"><a href="#cb18-53" tabindex="-1"></a><span class="co">#&gt;             Not high                   22/114 (19.3%)   18/112 (16.1%)   17/115 (14.8%)</span></span>
-<span id="cb18-54"><a href="#cb18-54" tabindex="-1"></a><span class="co">#&gt;             High                         2/20 (10%)      5/22 (22.7%)     1/17 (5.9%)  </span></span>
-<span id="cb18-55"><a href="#cb18-55" tabindex="-1"></a><span class="co">#&gt;             Total                      24/134 (17.9%)   23/134 (17.2%)   18/132 (13.6%)</span></span>
-<span id="cb18-56"><a href="#cb18-56" tabindex="-1"></a><span class="co">#&gt; WEEK 4 DAY 29                                                                          </span></span>
-<span id="cb18-57"><a href="#cb18-57" tabindex="-1"></a><span class="co">#&gt;   Low                                                                                  </span></span>
-<span id="cb18-58"><a href="#cb18-58" tabindex="-1"></a><span class="co">#&gt;             Not low                    30/119 (25.2%)   13/113 (11.5%)   16/112 (14.3%)</span></span>
-<span id="cb18-59"><a href="#cb18-59" tabindex="-1"></a><span class="co">#&gt;             Low                          3/15 (20%)      2/21 (9.5%)       5/20 (25%)  </span></span>
-<span id="cb18-60"><a href="#cb18-60" tabindex="-1"></a><span class="co">#&gt;             Total                      33/134 (24.6%)   15/134 (11.2%)   21/132 (15.9%)</span></span>
-<span id="cb18-61"><a href="#cb18-61" tabindex="-1"></a><span class="co">#&gt;   High                                                                                 </span></span>
-<span id="cb18-62"><a href="#cb18-62" tabindex="-1"></a><span class="co">#&gt;             Not high                   17/114 (14.9%)   11/112 (9.8%)    16/115 (13.9%)</span></span>
-<span id="cb18-63"><a href="#cb18-63" tabindex="-1"></a><span class="co">#&gt;             High                         2/20 (10%)      6/22 (27.3%)     3/17 (17.6%) </span></span>
-<span id="cb18-64"><a href="#cb18-64" tabindex="-1"></a><span class="co">#&gt;             Total                      19/134 (14.2%)   17/134 (12.7%)   19/132 (14.4%)</span></span>
-<span id="cb18-65"><a href="#cb18-65" tabindex="-1"></a><span class="co">#&gt; WEEK 5 DAY 36                                                                          </span></span>
-<span id="cb18-66"><a href="#cb18-66" tabindex="-1"></a><span class="co">#&gt;   Low                                                                                  </span></span>
-<span id="cb18-67"><a href="#cb18-67" tabindex="-1"></a><span class="co">#&gt;             Not low                    17/119 (14.3%)   19/113 (16.8%)   16/112 (14.3%)</span></span>
-<span id="cb18-68"><a href="#cb18-68" tabindex="-1"></a><span class="co">#&gt;             Low                         2/15 (13.3%)     3/21 (14.3%)      5/20 (25%)  </span></span>
-<span id="cb18-69"><a href="#cb18-69" tabindex="-1"></a><span class="co">#&gt;             Total                      19/134 (14.2%)   22/134 (16.4%)   21/132 (15.9%)</span></span>
-<span id="cb18-70"><a href="#cb18-70" tabindex="-1"></a><span class="co">#&gt;   High                                                                                 </span></span>
-<span id="cb18-71"><a href="#cb18-71" tabindex="-1"></a><span class="co">#&gt;             Not high                   19/114 (16.7%)   17/112 (15.2%)   11/115 (9.6%) </span></span>
-<span id="cb18-72"><a href="#cb18-72" tabindex="-1"></a><span class="co">#&gt;             High                         4/20 (20%)      6/22 (27.3%)     2/17 (11.8%) </span></span>
-<span id="cb18-73"><a href="#cb18-73" tabindex="-1"></a><span class="co">#&gt;             Total                      23/134 (17.2%)   23/134 (17.2%)   13/132 (9.8%) </span></span>
-<span id="cb18-74"><a href="#cb18-74" tabindex="-1"></a><span class="co">#&gt; ———————————————————————————————————————————————————————————————————————————————————————</span></span>
-<span id="cb18-75"><a href="#cb18-75" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb18-76"><a href="#cb18-76" tabindex="-1"></a><span class="co">#&gt; t_ds footnotes</span></span>
-<span id="cb18-77"><a href="#cb18-77" tabindex="-1"></a><span class="co">#&gt; Confidential and for internal use only</span></span>
-<span id="cb18-78"><a href="#cb18-78" tabindex="-1"></a><span class="co">#&gt; GitHub repository: https://github.com/insightsengineering/autoslider.core.git</span></span>
-<span id="cb18-79"><a href="#cb18-79" tabindex="-1"></a><span class="co">#&gt; Git hash: ce58a63d30d6386fc98113f72c42ef6a0f843336</span></span>
-<span id="cb18-80"><a href="#cb18-80" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb18-81"><a href="#cb18-81" tabindex="-1"></a><span class="co">#&gt; Slot &quot;titles&quot;:</span></span>
-<span id="cb18-82"><a href="#cb18-82" tabindex="-1"></a><span class="co">#&gt;  Patient Disposition (Intent to Treat Population)</span></span>
-<span id="cb18-83"><a href="#cb18-83" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb18-84"><a href="#cb18-84" tabindex="-1"></a><span class="co">#&gt; Slot &quot;footnotes&quot;:</span></span>
-<span id="cb18-85"><a href="#cb18-85" tabindex="-1"></a><span class="co">#&gt; [1] &quot;t_ds footnotes&quot;                        </span></span>
-<span id="cb18-86"><a href="#cb18-86" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Confidential and for internal use only&quot;</span></span>
-<span id="cb18-87"><a href="#cb18-87" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb18-88"><a href="#cb18-88" tabindex="-1"></a><span class="co">#&gt; Slot &quot;paper&quot;:</span></span>
-<span id="cb18-89"><a href="#cb18-89" tabindex="-1"></a><span class="co">#&gt; [1] &quot;L6&quot;</span></span>
-<span id="cb18-90"><a href="#cb18-90" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb18-91"><a href="#cb18-91" tabindex="-1"></a><span class="co">#&gt; Slot &quot;width&quot;:</span></span>
-<span id="cb18-92"><a href="#cb18-92" tabindex="-1"></a><span class="co">#&gt; [1] 36 14 14 14</span></span></code></pre></div>
-<p>Once this works, we can finally generate the slides.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>filepath <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">&quot;.pptx&quot;</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">generate_slides</span>(outputs, <span class="at">outfile =</span> filepath)</span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Disposition (Intent to Treat Population)&quot;</span></span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Disposition (Intent to Treat Population) (cont.)&quot;</span></span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Demographics and Baseline Characteristics, Intent to Treat Population&quot;</span></span>
-<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Demographics and Baseline Characteristics, Intent to Treat Population (cont.)&quot;</span></span>
-<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Demographics and Baseline Characteristics, Intent to Treat Population (cont.)&quot;</span></span>
-<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Demographics and Baseline Characteristics, Intent to Treat Population (cont.)&quot;</span></span>
-<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Disposition (Intent to Treat Population)&quot;</span></span>
-<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Disposition (Intent to Treat Population) (cont.)&quot;</span></span>
-<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Disposition (Intent to Treat Population) (cont.)&quot;</span></span>
-<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Disposition (Intent to Treat Population) (cont.)&quot;</span></span>
-<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Disposition (Intent to Treat Population) (cont.)&quot;</span></span>
-<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Disposition (Intent to Treat Population) (cont.)&quot;</span></span>
-<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Disposition (Intent to Treat Population) (cont.)&quot;</span></span>
-<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Disposition (Intent to Treat Population) (cont.)&quot;</span></span>
-<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Disposition (Intent to Treat Population) (cont.)&quot;</span></span>
-<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a><span class="co">#&gt; [1] &quot; Patient Disposition (Intent to Treat Population) (cont.)&quot;</span></span></code></pre></div>
-<p>Of course, you would not use a temporary file, and you might want to
-use a custom <code>.pptx</code> template for your slides.</p>
-</div>
-</div>
+<p>I recommend to build your own customized TLG templates into
+downstream <code>R</code> packages.</p>
+<p>Please refer to <a href="https://pharmarug.github.io/pharmasug2024-r-workshop/">Good
+Software Engineering Practice for R Packages</a> for how to build an R
+package.</p>
+<p>Recommend adding the following dependencies to your customized
+downstream package:</p>
+<pre><code>Depends:
+    autoslider.core (&gt;= 0.2.0),
+    R (&gt;= 3.50)
+Imports:
+    assertthat,
+    checkmate,
+    cli,
+    dplyr,
+    flextable (&gt;= 0.9.4),
+    forcats,
+    formatters (&gt;= 0.5.8),
+    ggplot2,
+    gridExtra,
+    lubridate,
+    methods,
+    officer (&gt;= 0.3.18),
+    rlang,
+    rlistings (&gt;= 0.2.9),
+    rtables (&gt;= 0.6.9),
+    stringr,
+    survival,
+    tern (&gt;= 0.9.5),
+    tibble,
+    tidyr,
+    yaml
+Suggests:
+    devtools,
+    filters (&gt;= 0.3.1),
+    googledrive,
+    grid,
+    htmltools,
+    httr,
+    knitr,
+    mime,
+    nestcolor,
+    purrr,
+    rice,
+    rmarkdown,
+    rsvg,
+    rvg (&gt;= 0.2.5),
+    styler (&gt;= 1.10.2),
+    svglite (&gt;= 2.1.2),
+    testthat (&gt;= 3.2.0),
+    withr</code></pre>
 
 
 

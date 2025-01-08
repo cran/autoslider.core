@@ -77,18 +77,27 @@ setMethod(
 #' @param for_test `logic` CICD parameter
 #' @param ... additional arguments. not used.
 #' @return No return value, called for side effects
+#' @export
 #' @details
 #' The paper default paper size, `L11`, indicate that the fontsize is 11.
 #' The fontsize of the footnotes, is the fontsize of the titles minus 2.
-#' @export
 decorate.ggplot <- function(x, titles = "", footnotes = "", paper = "L11", for_test = FALSE, ...) {
-  decorate(
-    x = ggplot2::ggplotGrob(x),
-    titles = titles,
+  glued_title <- glue::glue(paste(titles, collapse = "\n"))
+  # main_title(x) <- glued_title
+
+  git_fn <- git_footnote(for_test)
+  glued_footnotes <- glue::glue(paste(c(footnotes, git_fn), collapse = "\n"))
+  # main_footer(x) <- glued_footnotes
+
+  ret <- list(
+    grob = ggplot2::ggplotGrob(x),
+    titles = glued_title,
     footnotes = footnotes,
     paper = paper,
     for_test = for_test
   )
+  class(ret) <- "decoratedGrob"
+  return(ret)
 }
 
 
@@ -145,9 +154,9 @@ setMethod(
 #' @export
 #'
 decorate.grob <-
-  function(x, titles, footnotes, paper = "L11", for_test = FALSE, ...) {
+  function(x, titles = "", footnotes = "", paper = "L11", for_test = FALSE, ...) {
     size <- fs(paper)
-    grob <- decorate_grob(
+    grob <- tern::decorate_grob(
       grob = x,
       titles = glue::glue(paste(titles, collapse = "\n")),
       footnotes = c(glue::glue(paste(footnotes, collapse = "\n")), git_footnote(for_test), datetime()),

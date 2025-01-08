@@ -55,11 +55,6 @@ write(yaml_content, file = filters)
 
 # Create the specs entry
 specs_entry <- '
-- program: t_pop_slide
-  titles: Analysis Sets
-  footnotes: "Analysis Sets footer"
-  paper: L6
-  suffix: ITT
 - program: t_ds_slide
   titles: Patient Disposition ({filter_titles("adsl")})
   footnotes: "t_ds footnotes"
@@ -124,8 +119,7 @@ outputs <- spec_file %>%
   # we can also filter for specific programs, if we don't want to create them all
   filter_spec(., program %in% c(
     "t_ds_slide",
-    "t_dm_slide",
-    "t_pop_slide"
+    "t_dm_slide"
   )) %>%
   # these filtered specs are now piped into the generate_outputs function.
   # this function also requires the data
@@ -136,7 +130,7 @@ outputs <- spec_file %>%
   )
 
 ## -----------------------------------------------------------------------------
-outputs$t_pop_slide_ITT
+outputs$t_dm_slide_ITT
 
 ## ----eval = FALSE-------------------------------------------------------------
 # # Output to slides with template and color theme
@@ -284,27 +278,4 @@ outputs$lbt06_ITT_LBCRP_LBNOBAS
 ## -----------------------------------------------------------------------------
 filepath <- tempfile(fileext = ".pptx")
 generate_slides(outputs, outfile = filepath)
-
-## -----------------------------------------------------------------------------
-# use_template(
-#   template = "listing",
-#   function_name = "l_custom_slide",
-#   save_path = "./my_directory/l_custom_slide.R"
-# )
-
-## -----------------------------------------------------------------------------
-# use_template(
-#   template = "listing",
-#   function_name = "l_custom_slide",
-#   save_path = "./my_directory/l_custom_slide.R",
-#   overwrite = TRUE
-# )
-
-## -----------------------------------------------------------------------------
-# use_template(
-#   template = "listing",
-#   function_name = "l_custom_slide",
-#   save_path = "./my_directory/l_custom_slide.R",
-#   open = TRUE
-# )
 
