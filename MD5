@@ -1,6 +1,6 @@
-43d381807e4dd4d35fc6e59473323e43 *DESCRIPTION
+9be59f78cd2ff156761037b09c1144d6 *DESCRIPTION
 84edd49e9a57c18515bfadf17ab1c37c *NAMESPACE
-8e0e1a2a337111dd1ad262a04be96303 *NEWS.md
+ed53ac01313dddb9d60b260db37894c3 *NEWS.md
 7fde3cc41c86bdda8c788ea7cf08dd65 *R/assert.R
 00da1b1f5d2ed2699098098353e6b434 *R/autoslideR_error.R
 d771532598a05d6d8806e7f5268c88a1 *R/cached_data.R
@@ -28,7 +28,7 @@ e217cd077616bf997b6452c1d8636495 *R/t_ae_summary_slide.R
 51679df7a366830b94dc4b5187834dea *R/t_aesi_slide.R
 d6d7cd2bd5ebf58b013b3eba5eafe622 *R/t_dd_slide.R
 9060cee8a2106d961e9c4618ec517d60 *R/t_dm_slide.R
-aa08106decd7ab6901ab2ec2a2dd4447 *R/t_dor_slide.R
+2c050018fa16ef3360bbeeafbaf7c272 *R/t_dor_slide.R
 16bea400dfc9e94ad0e58b986561b4f9 *R/t_ds_slide.R
 11c5b2e5f23e4357f2f8a1ee85dc3060 *R/to_ft_funs.R
 91f1734efb2a0ff8b6722e8ca47ccac6 *R/to_slides.R
@@ -44,11 +44,11 @@ a978b8ca21cd847a8aee65104202f5b8 *data/eg_adrs.rda
 c92a84ab7b358d1e8ee63eef0e61b17d *data/eg_adtr.rda
 bbc7ef754193f7ca08175e61eb959b40 *data/eg_adtte.rda
 46e9d54b686f9980c13b9417e34e5714 *data/eg_advs.rda
-b288d106bce6cfb9523cfbb2aa20705d *inst/WORDLIST
+9a58f88cd5fff518828f81817f542c6a *inst/WORDLIST
 9bfb2b2427825b9af97fa8ab0acbffba *inst/bad_filters.yml
 a407c8f5a2c276d09d0b086e2976961a *inst/doc/autoslideR.R
 35a281ebf47281ed1ae8af6181d92be4 *inst/doc/autoslideR.Rmd
-b213154b51016cfa240535932d345afc *inst/doc/autoslideR.html
+4bf6fb558872f55c931ef4eb79f50591 *inst/doc/autoslideR.html
 5e270ae6034b339c2a13d20a5f7d2dec *inst/doc/downstream.R
 0f50ea50576f6bae33cfb6076bc353ad *inst/doc/downstream.Rmd
 3fa37ba7814406571937c00a4c34a639 *inst/doc/downstream.html
@@ -137,6 +137,12 @@ a3c2cb132cefadde16183194c464c573 *tests/testthat.R
 03644dcd52ef514ed6a2ffaae490c27c *tests/testthat/_snaps/data_snapshot.md
 f7ed2c6106244d4f92e8f4c26e1bd69c *tests/testthat/_snaps/filter_spec-verbose.md
 15f31d7760f1f752990e4c5940dd6504 *tests/testthat/_snaps/format_date.md
+769426bce4025f94f3fe8b2c0825c5ea *tests/testthat/_snaps/g_mean_slides/g_eg_test.svg
+0c8f2fadc4e03853461a9d40f037885e *tests/testthat/_snaps/g_mean_slides/g_lb_chg_test.svg
+91ec19a1b7850d5558baa1f72edbebb9 *tests/testthat/_snaps/g_mean_slides/g_lb_test.svg
+769426bce4025f94f3fe8b2c0825c5ea *tests/testthat/_snaps/g_mean_slides/g_mean_general_test.svg
+f2a2971640f837703ecf886e67c0dea0 *tests/testthat/_snaps/g_mean_slides/g_mean_nounit_test.svg
+0f5fc9cce7474e37fb1ebfda9aae91ba *tests/testthat/_snaps/g_mean_slides/g_vs_test.svg
 efdcecab37f56bb09b8871cc7c317a50 *tests/testthat/_snaps/helper_functions.md
 b556a1f1f137b12494462890c6a9c3d7 *tests/testthat/_snaps/l_ae_slide.md
 0bbc4bf911c729e35fb745e6a196efac *tests/testthat/_snaps/slides_preview.md
@@ -152,7 +158,7 @@ af8f81cf24cd399c41aa2c4e1a32e3fa *tests/testthat/_snaps/t_dor_slide.md
 94b2dd1dfaf1c6cf8addbe91a9b520ac *tests/testthat/_snaps/t_ds_slide.md
 ee1be8682e29bab41318448feabb2f66 *tests/testthat/setup-options.R
 6662764304ebeee6eff0045e0e13133c *tests/testthat/setup.R
-2ad9f1db3facc61399150a4d87b54e3a *tests/testthat/t_dm_output.rds
+acf98fd4b391245e62c8bbac206e0893 *tests/testthat/t_dm_output.rds
 3a5fafd79473140a804fe1ec060c8dd4 *tests/testthat/test-bad_filters.R
 4629205a469360f82a61ee0fdd3b450e *tests/testthat/test-data_snapshot.R
 5d9e6aebe5f8e503b02cab1d6ce0215c *tests/testthat/test-decorate.R

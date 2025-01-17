@@ -1,3 +1,9 @@
+# autoslider.core 0.2.3
+
+### Miscellaneous
+
+ * Align upstream packages (formatters/rtables/rlistings/tern) to the latest releases. 
+
 # autoslider.core 0.2.2
 
 ### Miscellaneous

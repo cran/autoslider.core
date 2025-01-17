@@ -1,7 +1,7 @@
 Type: Package
 Package: autoslider.core
 Title: Slide Automation for Tables, Listings and Figures
-Version: 0.2.2
+Version: 0.2.3
 Authors@R: c(
     person("Joe", "Zhu", , "joe.zhu@roche.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0001-7566-2787")),
@@ -39,9 +39,9 @@ BugReports: https://github.com/insightsengineering/autoslider.core/issues
 Depends: R (>= 3.5.0)
 Imports: assertthat, checkmate, cli, dplyr, flextable (>= 0.9.4),
         forcats, ggplot2, ggpubr, grid, gridExtra, methods, officer (>=
-        0.3.18), rlang, rlistings (>= 0.2.9), rtables (>= 0.6.10), rvg
-        (>= 0.2.5), stringr, survival, tern (>= 0.9.6), tidyr, yaml
-Suggests: devtools, filters (>= 0.3.1), formatters (>= 0.5.9), glue,
+        0.3.18), rlang, rlistings (>= 0.2.10), rtables (>= 0.6.11), rvg
+        (>= 0.2.5), stringr, survival, tern (>= 0.9.7), tidyr, yaml
+Suggests: devtools, filters (>= 0.3.1), formatters (>= 0.5.10), glue,
         googledrive, htmltools, httr, knitr, lubridate, mime,
         nestcolor, purrr, rmarkdown (>= 2.23), rsvg, styler (>=
         1.10.2), svglite (>= 2.1.2), testthat (>= 3.2.0), withr
@@ -60,7 +60,7 @@ LazyData: true
 LazyDataCompression: xz
 RoxygenNote: 7.3.2
 NeedsCompilation: no
-Packaged: 2025-01-07 08:04:38 UTC; rstudio
+Packaged: 2025-01-17 08:59:52 UTC; rstudio
 Author: Joe Zhu [cre, aut] (<https://orcid.org/0000-0001-7566-2787>),
   Heng Wang [aut],
   Yinqi Zhao [aut],
@@ -81,4 +81,4 @@ Author: Joe Zhu [cre, aut] (<https://orcid.org/0000-0001-7566-2787>),
   Jasmina Uzunovic [aut]
 Maintainer: Joe Zhu <joe.zhu@roche.com>
 Repository: CRAN
-Date/Publication: 2025-01-08 04:10:02 UTC
+Date/Publication: 2025-01-17 09:20:05 UTC
