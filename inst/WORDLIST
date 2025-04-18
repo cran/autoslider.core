@@ -59,6 +59,7 @@ dVTableTree
 decoratedGrob
 decoratedGrobSet
 df
+dgtsummary
 dm
 dplyr
 ds
@@ -69,6 +70,7 @@ fontsize
 formatters
 ggplot
 github
+gtsummary
 headerlines
 https
 img

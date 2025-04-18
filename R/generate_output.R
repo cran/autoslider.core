@@ -16,7 +16,7 @@
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf require(filters)
 #' library(dplyr)
 #' filters::load_filters(
 #'   yaml_file = system.file("filters.yml", package = "autoslider.core"),
@@ -103,7 +103,7 @@ generate_output <-
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf require(filters)
 #' library(dplyr, warn.conflicts = FALSE)
 #' data <- list(
 #'   adsl = eg_adsl,

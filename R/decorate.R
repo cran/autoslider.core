@@ -37,6 +37,7 @@ decorate.autoslider_error <- function(x, ...) {
 #' @param for_test `logic` CICD parameter
 #' @param ... Additional arguments passed to the decoration function.
 #' @return No return value, called for side effects
+#' @export
 setMethod(
   "decorate", "VTableTree",
   decorate.VTableTree <- function(x, titles = "", footnotes = "", paper = "P8", for_test = FALSE, ...) {
@@ -110,6 +111,7 @@ decorate.ggplot <- function(x, titles = "", footnotes = "", paper = "L11", for_t
 #' @param for_test `logic` CICD parameter
 #' @param ... Additional arguments. not used.
 #' @return No return value, called for side effects
+#' @export
 setMethod(
   "decorate", "listing_df",
   decorate.listing_df <- function(x, titles = "", footnotes = "", paper = "P8", for_test = FALSE, ...) {
@@ -140,6 +142,8 @@ setMethod(
 )
 
 
+
+
 #' decorate grob
 #' @param x object to decorate
 #' @param titles graph titles
@@ -168,6 +172,32 @@ decorate.grob <-
     grob
   }
 
+#' decorate gtsummary
+#'
+#' @param x gtsummary object to decorate
+#' @param titles graph titles
+#' @param footnotes graph footnotes
+#' @param paper paper size. default is "L8".
+#' @param for_test `logic` CICD parameter
+#' @param ... Additional arguments. not used.
+#' @return No return value, called for side effects
+#' @details
+#' The paper default paper size, `L11`, indicate that the fontsize is 11.
+#' The fontsize of the footnotes, is the fontsize of the titles minus 2.#'
+#' @export
+decorate.gtsummary <-
+  function(x, titles = "", footnotes = "", paper = "L11", for_test = FALSE, ...) {
+    size <- fs(paper)
+    glued_title <- glue::glue(paste(titles, collapse = "\n"))
+    x <- x %>% modify_caption(caption = "")
+    structure(
+      .Data = x,
+      titles = glued_title,
+      paper = paper,
+      class = union("dgtsummary", class(x))
+    )
+  }
+# )
 
 #' decorate list of grobs
 #' @param x object to decorate
@@ -189,11 +219,11 @@ decorate.list <-
     }, FUN.VALUE = TRUE)))
     size <- fs(paper)
     x <- lapply(x, function(g) {
+      ret <- g
       if ("ggplot" %in% class(g)) {
-        return(ggplot2::ggplotGrob(g))
-      } else {
-        return(g)
+        ret <- ggplot2::ggplotGrob(g)
       }
+      ret
     })
     grobs <- decorate_grob_set(
       grobs = x,
@@ -282,16 +312,20 @@ decorate_outputs <- function(outputs,
       )
     }
 
-    structure(
-      .Data = decorate(
-        x = output,
-        title = c(full_title, generic_title),
-        footnotes = c(spec$footnotes, generic_footnote),
-        paper = spec$paper,
-        for_test = for_test
-      ),
-      spec = modifyList(spec, list(titles = glue::glue(paste0(c(full_title, generic_title), collapse = "\n"))))
-    )
+    if ("ggplot" %in% class(output)) {
+      decorate.ggplot(output)
+    } else {
+      structure(
+        .Data = decorate(
+          x = output,
+          title = c(full_title, generic_title),
+          footnotes = c(spec$footnotes, generic_footnote),
+          paper = spec$paper,
+          for_test = for_test
+        ),
+        spec = modifyList(spec, list(titles = glue::glue(paste0(c(full_title, generic_title), collapse = "\n"))))
+      )
+    }
   })
 }
 

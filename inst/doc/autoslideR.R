@@ -1,8 +1,18 @@
 ## ----include = FALSE----------------------------------------------------------
+suggested_dependent_pkgs <- c("filters")
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = all(vapply(
+    suggested_dependent_pkgs,
+    requireNamespace,
+    logical(1),
+    quietly = TRUE
+  ))
 )
+
+## ----echo=FALSE---------------------------------------------------------------
+knitr::opts_chunk$set(comment = "#")
 
 ## ----echo = FALSE, include = FALSE--------------------------------------------
 library(autoslider.core)

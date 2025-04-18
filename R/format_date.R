@@ -12,7 +12,8 @@
 #' @return A vector.
 #'
 #' @export
-#' @examples
+#' @examplesIf require(lubridate)
+#' require(lubridate)
 #'
 #' # expected to return "2019"
 #' format_date("2019")
@@ -39,5 +40,5 @@ format_date <- function(x) {
     TRUE ~ ""
   )
 
-  return(x_form)
+  x_form
 }

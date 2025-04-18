@@ -81,6 +81,17 @@ save_output.decoratedGrobSet <- function(output, file_name, save_rds = TRUE) {
 #' @rdname save_output
 #' @return The input `object` invisibly
 #' @export
+save_output.dgtsummary <- function(output, file_name, save_rds = TRUE) {
+  if (save_rds) {
+    saveRDS(output, file = paste0(file_name, ".rds"))
+  }
+
+  invisible(output)
+}
+
+#' @rdname save_output
+#' @return The input `object` invisibly
+#' @export
 save_output.dlisting <- function(output, file_name, save_rds = TRUE) {
   if (save_rds) {
     saveRDS(output, file = paste0(file_name, ".rds"))
@@ -101,10 +112,9 @@ save_output.dlisting <- function(output, file_name, save_rds = TRUE) {
 #' @param generic_suffix generic suffix. must be length 1 character or NULL.
 #' @export
 #' @return The input `object` invisibly
-#' @examples
+#' @examplesIf require(filters)
 #' ## As `save_outputs` is the last step in the pipeline we have to run
-#' ## the 'whole machinery' in order to show its functionality. Also take a look
-#' ## at the `AutoslideR-Demo` repo on code.roche.com.
+#' ## the 'whole machinery' in order to show its functionality.
 #' library(dplyr, warn.conflicts = FALSE)
 #'
 #' data <- list(
@@ -187,4 +197,44 @@ save_outputs <- function(outputs,
   }
 
   ret
+}
+
+
+#' Generate slides from rds files
+#' @param filenames List of file names
+#' @param template Template file path
+#' @param outfile Out file path
+#' @return No return value, called for side effects
+#'
+#' @export
+#' @examplesIf require(filters)
+#' library(dplyr, warn.conflicts = FALSE)
+#'
+#' data <- list(
+#'   adsl = eg_adsl,
+#'   adae = eg_adae,
+#'   adtte = eg_adtte
+#' )
+#'
+#' filters::load_filters(
+#'   yaml_file = system.file("filters.yml", package = "autoslider.core"),
+#'   overwrite = TRUE
+#' )
+#'
+#' ## For this example the outputs will be saved in a temporary directory. In a
+#' ## production run this should be the reporting event's 'output' folder instead.
+#' output_dir <- tempdir()
+#'
+#' spec_file <- system.file("spec.yml", package = "autoslider.core")
+#' read_spec(spec_file) %>%
+#'   filter_spec(program == "t_dm_slide") %>%
+#'   generate_outputs(datasets = data) %>%
+#'   decorate_outputs() %>%
+#'   save_outputs(outfolder = output_dir)
+#'
+#' slides_from_rds(list.files(file.path(output_dir, "t_dm_slide_FAS.rds")))
+slides_from_rds <- function(filenames, outfile = paste0(tempdir(), "/output.pptx"),
+                            template = file.path(system.file(package = "autoslider.core"), "theme/basic.pptx")) {
+  outputs <- lapply(filenames, readRDS)
+  generate_slides(outputs, outfile, template)
 }

@@ -19,7 +19,8 @@ check_and_set_cutoff <- function(data, cutoff) {
       assert_that(are_equal(cutoff, cutoff_suffix))
     }
   }
-  return(cutoff)
+
+  cutoff
 }
 
 #' Replace NAs to NA
@@ -37,7 +38,8 @@ na_replace <- function(table_df) {
       }
     }
   }
-  return(table_df)
+
+  table_df
 }
 
 #' Concatenate arguments into a string
@@ -50,9 +52,7 @@ dec_paste <- function(...) {
     ...
   )
 
-  if (any(is.na(arguments))) {
-    return(NA)
-  } else {
+  if (!any(is.na(arguments))) {
     do.call("paste", arguments)
   }
 }
@@ -236,7 +236,7 @@ is_in_repository <- function() {
 
 get_remote_url <- function() {
   repos <- system("git remote -v", intern = TRUE)
-  return(str_extract(repos, "(https://|git@).*.git"))
+  str_extract(repos, "(https://|git@).*.git")
 }
 
 get_last_gitcommit_sha <- function() {
@@ -386,7 +386,8 @@ text_wrap_cut <- function(text, width) {
     s <- wrap_chunk(x, width = width)
     paste(unlist(s), collapse = "\n")
   }, FUN.VALUE = "")
-  return(ret)
+
+  ret
 }
 
 text_wrap_cut_keepreturn <- function(text, width) {
@@ -398,14 +399,15 @@ text_wrap_cut_keepreturn <- function(text, width) {
     r <- text_wrap_cut(x, width)
     paste0(r, collapse = "\n")
   }, FUN.VALUE = "")
-  return(ret)
+
+  ret
 }
 
 #' @noRd
 fs <- function(paper) {
   fontsize <- as.integer(substr(paper, 2, nchar(paper)))
   orientation <- substr(paper, 1, 1)
-  return(list(fontsize = fontsize, orientation = orientation))
+  list(fontsize = fontsize, orientation = orientation)
 }
 
 validate_paper_size <- function(paper) {
@@ -423,12 +425,15 @@ validate_paper_size <- function(paper) {
 }
 
 get_output_file_ext <- function(output, file_path) {
+  ret <- ""
   if (tools::file_ext(file_path) != "") {
-    return(file_path)
+    ret <- file_path
   } else {
     file_ext <- ifelse(is_rtable(output) || "dVTableTree" %in% class(output), "out", "pdf")
-    return(sprintf("%s.%s", file_path, file_ext))
+    ret <- sprintf("%s.%s", file_path, file_ext)
   }
+
+  ret
 }
 
 warn_about_legacy_filtering <- function(output) {
@@ -478,17 +483,21 @@ lyt_to_side_by_side <- function(lyt, anl, side_by_side = NULL) {
 
   if (!is.null(side_by_side)) {
     if (grepl("Asia", side_by_side)) {
+      tmp_anl <- anl %>% filter(COUNTRY %in% c("CHN", "HKG", "TWN", "KOR", "SGP", "THA", "MYS"))
+      tmp_anl$lvl <- "Asia"
       result <- cbind_rtables(
         result,
         build_table(
           lyt = lyt,
-          df = anl %>% filter(COUNTRY %in% c("CHN", "HKG", "TWN", "KOR", "SGP", "THA", "MYS"))
+          df = tmp_anl
         )
       )
     }
 
     if (grepl("China", side_by_side)) {
-      result <- cbind_rtables(result, build_table(lyt = lyt, df = anl %>% filter(COUNTRY == "CHN")))
+      tmp_anl <- anl %>% filter(COUNTRY == "CHN")
+      tmp_anl$lvl <- "China"
+      result <- cbind_rtables(result, build_table(lyt = lyt, df = tmp_anl))
     }
   }
   return(result)
@@ -506,20 +515,30 @@ lyt_to_side_by_side_two_data <- function(lyt, anl, alt_counts_df, side_by_side =
 
   if (!is.null(side_by_side)) {
     if (grepl("Asia", side_by_side)) {
+      countries <- c("CHN", "HKG", "TWN", "KOR", "SGP", "THA", "MYS")
+      tmp_anl <- anl %>% filter(COUNTRY %in% countries)
+      tmp_anl$lvl <- "Asia"
+      tmp_alt <- alt_counts_df %>% filter(COUNTRY %in% countries)
+      tmp_alt$lvl <- "Asia"
+
       result <- cbind_rtables(
         result,
         build_table(
           lyt = lyt,
-          df = anl %>% filter(COUNTRY %in% c("CHN", "HKG", "TWN", "KOR", "SGP", "THA", "MYS")),
-          alt_counts_df = alt_counts_df %>% filter(COUNTRY %in% c("CHN", "HKG", "TWN", "KOR", "SGP", "THA", "MYS"))
+          df = tmp_anl,
+          alt_counts_df = tmp_alt
         )
       )
     }
 
     if (grepl("China", side_by_side)) {
+      tmp_anl <-  anl %>% filter(COUNTRY == "CHN")
+      tmp_anl$lvl <- "China"
+      tmp_alt <- alt_counts_df %>% filter(COUNTRY == "CHN")
+      tmp_alt$lvl <- "China"
       result <- cbind_rtables(result, build_table(
-        lyt = lyt, df = anl %>% filter(COUNTRY == "CHN"),
-        alt_counts_df = alt_counts_df %>% filter(COUNTRY == "CHN")
+        lyt = lyt, df = tmp_anl,
+        alt_counts_df = tmp_alt
       ))
     }
   }
@@ -561,10 +580,12 @@ build_table_header <- function(anl,
       warning("split_by_study argument will be ignored")
     }
     lyt <- lyt %>%
+      split_cols_by(var = "lvl") %>%
       split_cols_by(var = arm) %>%
       add_overall_col("All Patients")
   }
-  return(lyt)
+
+  lyt
 }
 
 
@@ -574,5 +595,5 @@ get_version_label_output <- function() {
 
 
 strip_NA <- function(input) {
-  return(input[which(input != "NA")])
+  input[which(input != "NA")]
 }

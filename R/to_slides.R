@@ -16,7 +16,7 @@
 #' @param ... arguments passed to program
 #' @return No return value, called for side effects
 #' @export
-#' @examples
+#' @examplesIf require(filters)
 #'
 #' # Example 1. When applying to the whole pipeline
 #' library(dplyr)
@@ -62,7 +62,10 @@ generate_slides <- function(outputs,
     )
   } else if (any(c(
     is(outputs, "data.frame"),
-    is(outputs, "ggplot")
+    is(outputs, "ggplot"),
+    is(outputs, "gtsummary"),
+    is(outputs, "dVTableTree"),
+    is(outputs, "dlisting")
   ))) {
     if (is(outputs, "ggplot")) {
       current_title <- outputs$labels$title
@@ -105,6 +108,11 @@ generate_slides <- function(outputs,
     } else if (is(x, "data.frame")) { # this is dedicated for small data frames without pagination
       y <- to_flextable(x, ...)
       table_to_slide(ppt, content = y, decor = FALSE, ...)
+    } else if (is(x, "gtsummary") || is(x, "dgtsummary")) {
+      y <- to_flextable(x, ...)
+      table_to_slide(ppt,
+        content = y, decor = FALSE, ...
+      )
     } else {
       if (any(class(x) %in% c("decoratedGrob", "decoratedGrobSet", "ggplot"))) {
         if (is(x, "ggplot")) {
@@ -143,13 +151,16 @@ slides_preview <- function(x) {
   if (is(x, "VTableTree")) {
     ret <- to_flextable(paginate_table(x, lpp = 20)[[1]])
   } else if (is(x, "listing_df")) {
+    new_colwidth <- formatters::propose_column_widths(x)
     ret <- to_flextable(old_paginate_listing(x, cpp = 150, lpp = 20)[[1]],
-      col_width = formatters::propose_column_widths(x)
+      col_width = new_colwidth
     )
   } else if (is(x, "ggplot")) {
     ret <- x
+  } else {
+    stop("Unintended usage!")
   }
-  return(ret)
+  ret
 }
 
 get_body_bottom_location <- function(ppt) {
@@ -158,7 +169,8 @@ get_body_bottom_location <- function(ppt) {
   height <- location_$height
   top <- 0.7 * height
   left <- 0.1 * width
-  return(ph_location(left = left, top = top))
+  ph <- ph_location(left = left, top = top)
+  ph
 }
 
 
@@ -171,7 +183,8 @@ get_body_bottom_location <- function(ppt) {
 center_table_loc <- function(ft, ppt_width, ppt_height) {
   top <- 0.17 * ppt_height
   left <- (ppt_width - sum(dim(ft)$widths)) / 2
-  return(ph_location(left = left, top = top))
+  ph <- ph_location(left = left, top = top)
+  ph
 }
 
 #' Adjust title line break and font size

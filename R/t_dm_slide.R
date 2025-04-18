@@ -40,6 +40,10 @@ t_dm_slide <- function(adsl,
   adsl1 <- adsl %>%
     select(all_of(c("STUDYID", "USUBJID", arm, vars, extra)))
 
+  if (!is.null(side_by_side)) {
+    adsl1$lvl <- "Global"
+  }
+
   lyt <- build_table_header(adsl1, arm,
     split_by_study = split_by_study,
     side_by_side = side_by_side
@@ -72,4 +76,28 @@ t_dm_slide <- function(adsl,
   }
   result@main_title <- "Demographic slide"
   result
+}
+
+#' Demographic table with gtsummary
+#'
+#' @param adsl ADSL data set, dataframe
+#' @param arm Arm variable, character, "`TRT01P" by default.
+#' @param vars Characters of variables
+#' @return gtsummary object
+#' @inherit gen_notes note
+#' @export
+#' @examples
+#' library(dplyr)
+#' adsl <- eg_adsl
+#' out1 <- gt_t_dm_slide(adsl, "TRT01P", c("SEX", "AGE", "RACE", "ETHNIC", "COUNTRY"))
+#' print(out1)
+#' generate_slides(out1, paste0(tempdir(), "/dm.pptx"))
+#'
+gt_t_dm_slide <- function(adsl,
+                          arm = "TRT01P",
+                          vars = c("AGE", "SEX", "RACE")) {
+  adsl |>
+    select(all_of(c(vars, arm))) |>
+    tbl_summary(by = all_of(arm)) |>
+    modify_caption(caption = "Demographic slide") # Set default title
 }

@@ -22,6 +22,8 @@ This `format_date()` function was tested with the inputs in the examples, all ga
 expected returned value, so there should be no issues.
 }
 \examples{
+\dontshow{if (require(lubridate)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+require(lubridate)
 
 # expected to return "2019"
 format_date("2019")
@@ -37,5 +39,5 @@ format_date("2019-06-18T10:32")
 
 # expected to return "APR2019"
 format_date("2019-04")
-
+\dontshow{\}) # examplesIf}
 }
