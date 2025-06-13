@@ -1,0 +1,9 @@
+- output: t_dm_slide_FAS
+  prompt: "
+
+{table_text}
+
+Please analyze the 'Sex', 'Age', 'Race' category in this table. Specifically, compare the distribution of races between the Placebo column and the treatment column for any imbalance.
+
+Focus only on describing any noticeable differences or similarities in the counts and percentages for each race listed between these two specific groups, based *directly* on the data presented in the table text provided above.
+"
