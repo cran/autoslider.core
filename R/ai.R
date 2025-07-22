@@ -38,7 +38,14 @@ get_ellmer_chat <- function(platform = "deepseek",
       api_key = api_key,
       model = model
     )
+  } else if (platform == "ollama") {
+    chat <- ellmer::chat_ollama(
+      system_prompt = get_system_prompt(),
+      base_url = base_url,
+      model = model
+    )
   }
+
   return(chat)
 }
 
@@ -59,8 +66,10 @@ get_prompt_list <- function(filename) {
 
 integrate_prompt <- function(base_prompt, tlg) {
   # let's do figures in the future
-  ret <- paste("As a Clinical data scientist expert, here is a",
-               tlg@main_title, ":\n\n")
+  ret <- paste(
+    "As a Clinical data scientist expert, here is a",
+    tlg@main_title, ":\n\n"
+  )
   ret <- gsub("\\{table_text\\}", export_as_txt(tlg), base_prompt)
   ret
 }

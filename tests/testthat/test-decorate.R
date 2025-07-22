@@ -23,7 +23,7 @@ test_that("Test decoreate.grob not to throw", {
   p <- ggplotGrob(a)
   expect_no_error(decorate.grob(p, titles = "some title", footnotes = "some footnote"))
 
-  aa_bind <- gridExtra::grid.arrange(a, a, ncol = 2, nrow=1)
+  aa_bind <- gridExtra::grid.arrange(a, a, ncol = 2, nrow = 1)
   expect_no_error(decorate.grob(aa_bind, titles = "some title", footnotes = "some footnote"))
 })
 
@@ -59,7 +59,7 @@ test_that("Test decoreate throw", {
 test_that("Test ph_with_img not to throw", {
   testthat::skip_if_not_installed("rsvg")
 
-  p <- ggplotGrob(a)
+  p <- decorate.ggplot(a)
   location_ <- officer::fortify_location(officer::ph_location_fullsize(), doc = read_pptx())
   width <- location_$width
   height <- location_$height
