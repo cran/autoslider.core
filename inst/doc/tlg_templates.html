@@ -11,7 +11,7 @@
 
 <meta name="author" content="Yolanda Zhou ([yolandazzz13])" />
 
-<meta name="date" content="2025-07-22" />
+<meta name="date" content="2025-07-25" />
 
 <title>Generating Templates with table_templates.R</title>
 
@@ -1582,7 +1582,7 @@ border-radius: 0px;
 <h1 class="title toc-ignore">Generating Templates with
 table_templates.R</h1>
 <h4 class="author">Yolanda Zhou ([<code>yolandazzz13</code>])</h4>
-<h4 class="date">2025-07-22</h4>
+<h4 class="date">2025-07-25</h4>
 
 </div>
 
@@ -1619,10 +1619,105 @@ script that you can customize. For example:</p>
 <pre class="r_function_call"><code>use_template(template = &quot;t_dm_slide&quot;, function_name = &quot;demography&quot;)
 </code></pre>
 <p>This will create a file with the demography template at
-<code>./programs/R/demography.R</code></p>
-<p>To create multiple variations of the same template type, you could
-choose your custom numbering/enumeration style simply by passing in
-different <code>function_names</code>. For example:</p>
+<code>./programs/R/demography.R</code>, whose contents are displayed
+below.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">library</span>(autoslider.core)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>demography <span class="ot">&lt;-</span> <span class="cf">function</span>(adsl,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>                       <span class="at">arm =</span> <span class="st">&quot;TRT01P&quot;</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>                       <span class="at">vars =</span> <span class="fu">c</span>(<span class="st">&quot;AGE&quot;</span>, <span class="st">&quot;SEX&quot;</span>, <span class="st">&quot;RACE&quot;</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>                       <span class="at">stats =</span> <span class="fu">c</span>(<span class="st">&quot;median&quot;</span>, <span class="st">&quot;range&quot;</span>, <span class="st">&quot;count_fraction&quot;</span>),</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>                       <span class="at">split_by_study =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>                       <span class="at">side_by_side =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(side_by_side)) {</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>    extra <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>    extra <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;COUNTRY&quot;</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>  }</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>  <span class="cf">for</span> (v <span class="cf">in</span> <span class="fu">c</span>(vars, extra)) {</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>    <span class="fu">assert_that</span>(<span class="fu">has_name</span>(adsl, v))</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>  }</span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>  adsl1 <span class="ot">&lt;-</span> adsl <span class="sc">%&gt;%</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>    <span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">c</span>(<span class="st">&quot;STUDYID&quot;</span>, <span class="st">&quot;USUBJID&quot;</span>, arm, vars, extra)))</span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(side_by_side)) {</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>    adsl1<span class="sc">$</span>lvl <span class="ot">&lt;-</span> <span class="st">&quot;Global&quot;</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>  }</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>  lyt <span class="ot">&lt;-</span> <span class="fu">build_table_header</span>(adsl1, arm,</span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>    <span class="at">split_by_study =</span> split_by_study,</span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a>    <span class="at">side_by_side =</span> side_by_side</span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>  )</span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>  lyt <span class="ot">&lt;-</span> lyt <span class="sc">%&gt;%</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a>    <span class="fu">analyze_vars</span>(</span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a>      <span class="at">.stats =</span> stats,</span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a>      <span class="at">denom =</span> <span class="st">&quot;n&quot;</span>,</span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a>      <span class="at">vars =</span> vars,</span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a>      <span class="at">.formats =</span> <span class="fu">c</span>(<span class="at">mean_sd =</span> <span class="st">&quot;xx.xx (xx.xx)&quot;</span>, <span class="at">median =</span> <span class="st">&quot;xx.xx&quot;</span>),</span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a>      <span class="at">var_labels =</span> formatters<span class="sc">::</span><span class="fu">var_labels</span>(adsl1)[vars]</span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a>    )</span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">lyt_to_side_by_side</span>(lyt, adsl1, side_by_side)</span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(side_by_side)) {</span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a>    <span class="co"># adding &quot;N&quot; attribute</span></span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a>    arm <span class="ot">&lt;-</span> <span class="fu">col_paths</span>(result)[[<span class="dv">1</span>]][<span class="dv">1</span>]</span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a>    n_r <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a>      <span class="at">ARM =</span> <span class="fu">toupper</span>(<span class="fu">names</span>(result<span class="sc">@</span>col_info)),</span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a>      <span class="at">N =</span> <span class="fu">col_counts</span>(result) <span class="sc">%&gt;%</span> <span class="fu">as.numeric</span>()</span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a>      <span class="st">`</span><span class="at">colnames&lt;-</span><span class="st">`</span>(<span class="fu">c</span>(<span class="fu">paste</span>(arm), <span class="st">&quot;N&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">arrange</span>(<span class="fu">get</span>(arm))</span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a>    <span class="fu">attr</span>(result, <span class="st">&quot;N&quot;</span>) <span class="ot">&lt;-</span> n_r</span>
+<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a>  }</span>
+<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a>  result<span class="sc">@</span>main_title <span class="ot">&lt;-</span> <span class="st">&quot;Demographic slide&quot;</span></span>
+<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a>  result</span>
+<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a>}</span></code></pre></div>
+<p>Processing our data with the generated <code>t_dm_slide</code> script
+would look like：</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>filters<span class="sc">::</span><span class="fu">load_filters</span>(filters, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># read data</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="st">&quot;adsl&quot;</span> <span class="ot">=</span> eg_adsl <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>      <span class="at">FASFL =</span> SAFFL, <span class="co"># add FASFL for illustrative purpose for t_pop_slide</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>      <span class="co"># DISTRTFL is needed for t_ds_slide but is missing in example data</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>      <span class="at">DISTRTFL =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&quot;Y&quot;</span>, <span class="st">&quot;N&quot;</span>), <span class="at">size =</span> <span class="fu">length</span>(TRT01A), <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(.<span class="dv">1</span>, .<span class="dv">9</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>    <span class="fu">preprocess_t_ds</span>(), <span class="co"># this preproccessing is required by one of the autoslider.core functions</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  <span class="st">&quot;adae&quot;</span> <span class="ot">=</span> eg_adae,</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  <span class="st">&quot;adtte&quot;</span> <span class="ot">=</span> eg_adtte,</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  <span class="st">&quot;adrs&quot;</span> <span class="ot">=</span> eg_adrs,</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>  <span class="st">&quot;adlb&quot;</span> <span class="ot">=</span> eg_adlb</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>)</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="fu">demography</span>(data<span class="sc">$</span>adsl)</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; Demographic slide</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; ———————————————————————————————————————————————————————————————————————————————————————————————————————</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt;                                                A: Drug X    B: Placebo    C: Combination   All Patients</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; ———————————————————————————————————————————————————————————————————————————————————————————————————————</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; Age                                                                                                    </span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt;   Median                                         33.00         35.00          35.00           34.00    </span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt;   Min - Max                                   21.0 - 50.0   21.0 - 62.0    20.0 - 69.0     20.0 - 69.0 </span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt; Sex                                                                                                    </span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co">#&gt;   F                                            79 (59%)     82 (61.2%)       70 (53%)      231 (57.8%) </span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt;   M                                            55 (41%)     52 (38.8%)       62 (47%)      169 (42.2%) </span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt; Race                                                                                                   </span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co">#&gt;   ASIAN                                       68 (50.7%)     67 (50%)       73 (55.3%)      208 (52%)  </span></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="co">#&gt;   BLACK OR AFRICAN AMERICAN                   31 (23.1%)    28 (20.9%)      32 (24.2%)      91 (22.8%) </span></span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="co">#&gt;   WHITE                                       27 (20.1%)    26 (19.4%)      21 (15.9%)      74 (18.5%) </span></span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a><span class="co">#&gt;   AMERICAN INDIAN OR ALASKA NATIVE              8 (6%)       11 (8.2%)       6 (4.5%)       25 (6.2%)  </span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="co">#&gt;   MULTIPLE                                         0         1 (0.7%)           0            1 (0.2%)  </span></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a><span class="co">#&gt;   NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER        0         1 (0.7%)           0            1 (0.2%)  </span></span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a><span class="co">#&gt;   OTHER                                            0             0              0               0      </span></span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="co">#&gt;   UNKNOWN                                          0             0              0               0</span></span></code></pre></div>
+<p>Following this process, you have successfully generated a reusable
+<code>demography</code> function that processes clinical data, and
+convert it into a standard demographic table, including statistical
+insights like range, median, and count fractions to variables AGE, SEX,
+and RACE.</p>
+<p>Naturally, you may want to customize the script to cater to the
+dataset characteristics or study objectives. To create multiple versions
+from the same template for specific analytics requirements, we have made
+it possible to do so by passing in different <code>function_name</code>.
+For example:</p>
 <pre class="r_function_call"><code>use_template(template = &quot;l_ae_slide&quot;, function_name = &quot;l_ae_slide_001&quot;)
 # which generates an Adverse Events listing at ./programs/R/l_ae_slide_001.R
 
@@ -1642,8 +1737,8 @@ editor for immediate editing.</p></li>
 </div>
 <div id="customize-the-template" class="section level2">
 <h2>Customize the template</h2>
-<p>Once the script is generated, you can modify it to suit your dataset
-or statistical needs. For instance, you can:</p>
+<p>Feel free to modify the template script to suit your dataset or
+statistical needs. For instance, you can:</p>
 <ul>
 <li><p>Add or remove table columns</p></li>
 <li><p>Customize labels and formatting</p></li>

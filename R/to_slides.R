@@ -187,7 +187,7 @@ get_body_bottom_location <- function(ppt) {
 #' @param ppt_height Powerpoint height
 #' @return Location for a placeholder
 center_table_loc <- function(ft, ppt_width, ppt_height) {
-  top <- 0.17 * ppt_height
+  top <- (ppt_height - sum(dim(ft)$heights)) / 2
   left <- (ppt_width - sum(dim(ft)$widths)) / 2
   ph <- ph_location(left = left, top = top)
   ph
@@ -231,7 +231,7 @@ get_proper_title <- function(title, max_char = 60, title_color = "#1C2B39") {
 table_to_slide <- function(ppt, content, decor = TRUE, table_loc = ph_location_type("body"), ...) {
   ppt_master <- layout_summary(ppt)$master[1]
   args <- list(...)
-  ppt <- layout_default(ppt, "Title and Content")
+  # until officer 0.6.10 ppt <- layout_default(ppt, "Title and Content")
 
   if (decor) {
     print(content$header)
@@ -329,7 +329,7 @@ figure_to_slide <- function(ppt, content,
                             fig_editable = FALSE,
                             ...) {
   ppt_master <- layout_summary(ppt)$master[1]
-  ppt <- layout_default(ppt, "Title and Content")
+  # until officer 0.6.10 ppt <- layout_default(ppt, "Title and Content")
   args <- list(...)
 
 
