@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 #   decorate_outputs()
 
 ## ----eval = FALSE-------------------------------------------------------------
-# outputs_ai <- adding_ai_footnotes(
+# outputs_ai <- get_ai_notes(
 #   outputs = outputs,
 #   prompt_list = prompt_list,
 #   platform = "ollama",

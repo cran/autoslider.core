@@ -11,9 +11,9 @@
 
 <meta name="author" content="Yolanda Zhou ([yolandazzz13])" />
 
-<meta name="date" content="2025-07-25" />
+<meta name="date" content="2025-08-25" />
 
-<title>Generating AI-Powered Footnotes</title>
+<title>Generating AI-Powered speaker notes</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1579,18 +1579,18 @@ border-radius: 0px;
 
 
 
-<h1 class="title toc-ignore">Generating AI-Powered Footnotes</h1>
+<h1 class="title toc-ignore">Generating AI-Powered speaker notes</h1>
 <h4 class="author">Yolanda Zhou ([<code>yolandazzz13</code>])</h4>
-<h4 class="date">2025-07-25</h4>
+<h4 class="date">2025-08-25</h4>
 
 </div>
 
 
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>This guide explains how to use the <code>adding_ai_footnotes()</code>
+<p>This guide explains how to use the <code>get_ai_notes()</code>
 function to automatically add analytical annotations and summaries to
-your slides using AI tool.</p>
+your slides using an AI tool.</p>
 </div>
 <div id="prerequisite" class="section level2">
 <h2>Prerequisite</h2>
@@ -1627,18 +1627,17 @@ generates the basic table and plot objects.</p>
 </div>
 <div id="step-2-adding-ai-footnotes" class="section level3">
 <h3>Step 2: Adding AI Footnotes</h3>
-<p>Next, pass the outputs object to the
-<code>adding_ai_footnotes()</code> function. This function iterates
-through your outputs, and for each one that has a corresponding prompt,
-it communicates with the specified LLM model to generate response in the
-form of a footnote.</p>
+<p>Next, pass the outputs object to the <code>get_ai_notes()</code>
+function. This function iterates through your outputs, and for each one
+that has a corresponding prompt, it communicates with the specified LLM
+model to generate a response in the form of a speaker note.</p>
 <p>You can configure the function to point to different AI
 platforms.</p>
 <div id="example-using-a-local-llm" class="section level4">
 <h4>Example: Using a Local LLM</h4>
 <p>This is ideal for local development. It assumes you have Ollama on
 your local machine and is developing in a Docker container.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>outputs_ai <span class="ot">&lt;-</span> <span class="fu">adding_ai_footnotes</span>(</span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>outputs_ai <span class="ot">&lt;-</span> <span class="fu">get_ai_notes</span>(</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">outputs =</span> outputs,</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">prompt_list =</span> prompt_list,</span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">platform =</span> <span class="st">&quot;ollama&quot;</span>,</span>

@@ -1,3 +1,9 @@
+# autoslider.core 0.2.8
+
+ * Renamed AI functionality from footnotes to speaker notes in documentation and function references.
+ * Added CRAN test skips to reduce test execution time.
+ * Removed `styler` from suggests.
+
 # autoslider.core 0.2.7
 
  * Revert `officer` dependency on function `layout_default`.

@@ -1,7 +1,8 @@
 Type: Package
 Package: autoslider.core
 Title: Slide Automation for Tables, Listings and Figures
-Version: 0.2.7
+Version: 0.2.8
+Date: 2025-08-18
 Authors@R: c(
     person("Joe", "Zhu", , "joe.zhu@roche.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0001-7566-2787")),
@@ -50,8 +51,7 @@ Suggests: devtools (>= 2.4.5), ellmer (>= 0.2.0), filters (>= 0.3.1),
         0.5.8.1), httr (>= 1.4.7), knitr (>= 1.49), lubridate (>=
         1.9.3), mime (>= 0.12), nestcolor, purrr (>= 1.0.2), R.utils
         (>= 2.12.3), reticulate, rmarkdown (>= 2.23), rsvg (>= 0.3.4),
-        styler (>= 1.10.2), svglite (>= 2.1.3), testthat (>= 3.2.0),
-        TMB (>= 1.9.1), withr
+        svglite (>= 2.1.3), testthat (>= 3.2.0), TMB (>= 1.9.1), withr
 VignetteBuilder: knitr, rmarkdown
 Config/Needs/verdepcheck: insightsengineering/formatters,
         tidyverse/magrittr, mllg/checkmate, rstudio/htmltools,
@@ -67,7 +67,7 @@ LazyData: true
 LazyDataCompression: xz
 RoxygenNote: 7.3.2
 NeedsCompilation: no
-Packaged: 2025-07-25 01:12:56 UTC; rstudio
+Packaged: 2025-08-25 03:36:20 UTC; rstudio
 Author: Joe Zhu [cre, aut] (ORCID: <https://orcid.org/0000-0001-7566-2787>),
   Heng Wang [aut],
   Yinqi Zhao [aut],
@@ -89,4 +89,4 @@ Author: Joe Zhu [cre, aut] (ORCID: <https://orcid.org/0000-0001-7566-2787>),
   Yolanda Zhou [aut]
 Maintainer: Joe Zhu <joe.zhu@roche.com>
 Repository: CRAN
-Date/Publication: 2025-07-25 10:20:09 UTC
+Date/Publication: 2025-08-25 04:20:02 UTC
