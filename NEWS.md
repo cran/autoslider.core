@@ -1,3 +1,15 @@
+# autoslider.core 0.3.1
+
+ * Fix vignette builder.
+
+# autoslider.core 0.3.0
+
+ * Fix layout, adding assertion.
+
+# autoslider.core 0.2.9
+
+ * Dependency version bump for `officer` version 0.7.0.
+
 # autoslider.core 0.2.8
 
  * Renamed AI functionality from footnotes to speaker notes in documentation and function references.
